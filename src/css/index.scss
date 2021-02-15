@@ -4,7 +4,35 @@ body {
   padding: 0;
   margin: 0;
   font-family: "Roboto", sans-serif;
+  background: #f5f5f5;
 }
+//constants
+.ui-w-30 {
+  width: 30px !important;
+  height: auto;
+}
+.rounded-circle {
+  border-radius: 50% !important;
+}
+.font-weight-bold {
+  font-weight: 500 !important;
+}
+.container-p-y {
+  padding-top: 1.5rem !important;
+  padding-bottom: 1.5rem !important;
+}
+.text-tiny {
+  font-size: 70% !important;
+}
+.sidenav-divider {
+  width: 100%;
+  border: 0;
+  border-top: 1px solid;
+  margin-bottom: 0.75rem;
+  padding: 0;
+  border-color: hsla(0, 0%, 100%, 0.06) !important;
+}
+
 //login page - screens/Login.js
 .login-form {
   width: 20%;
@@ -33,6 +61,134 @@ body {
   }
 }
 
+//home page - screens/Home.js
+.layout-wrapper {
+  display: flex;
+
+  .layout-inner {
+    display: flex;
+    min-height: 100vh;
+    align-items: stretch;
+    flex: 1 1 auto;
+    max-width: 100%;
+
+    .layout-sidenav {
+      background-color: #2f3337 !important;
+      color: #9d9fa1;
+      height: 100%;
+      flex: 1 0 auto;
+
+      .app-brand {
+        padding-right: 1.75rem;
+        padding-left: 1.75rem;
+        padding-top: 1rem;
+        height: 66px;
+
+        span {
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          a {
+            text-decoration: none;
+            font-size: 24px;
+            color: #fff;
+          }
+        }
+      }
+      .sidenav-content {
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 auto;
+        margin: 0;
+        padding: 0;
+
+        .sidenav-item {
+          margin: 0.0625rem 0;
+          width: 15.625rem;
+          .sidenav-link {
+            position: relative;
+            display: flex;
+            padding: 0.75rem 2rem;
+            color: #9d9fa1;
+            text-decoration: none;
+            border: none;
+            background: transparent;
+            width: 100%;
+            cursor: pointer;
+            transition-duration: 0.2s;
+            transition-property: color, background-color;
+          }
+          .sidenav-link:focus {
+            outline: none;
+          }
+          .sidenav-link:hover {
+            color: #fff;
+          }
+          .sidenav-toggle:after {
+            right: 2rem;
+            content: "";
+            position: absolute;
+            top: 50%;
+            display: block;
+            width: 0.42em;
+            height: 0.42em;
+            border: 1px solid;
+            border-top: 0;
+            border-right: 0;
+            -webkit-transform: translateY(-50%) rotate(45deg);
+            transform: translateY(-50%) rotate(45deg);
+            transition-duration: 0.2s;
+            transition-property: -webkit-transform, transform;
+            // transform: translateY(-50%) rotate(-45deg);
+          }
+          .sidenav-toggle.open:after {
+            transform: translateY(-50%) rotate(-45deg);
+          }
+          .sidenav-menu {
+            transition: background-color 0.2s;
+            display: none;
+            flex-direction: column;
+            flex: 1 1 auto;
+            margin: 0;
+            padding: 0;
+            .sidenav-item {
+              .sidenav-link {
+                padding-left: 4rem;
+              }
+              .sidenav-link:hover {
+                color: #fff;
+              }
+            }
+          }
+          .sidenav-menu.open {
+            display: flex;
+          }
+        }
+        .sidenav-item.active {
+          background-color: #393d41;
+          .sidenav-link {
+            color: #fff;
+          }
+        }
+      }
+    }
+    .layout-container {
+      display: flex;
+      flex-basis: 100%;
+      width: 0;
+      min-width: 0;
+      max-width: 100%;
+      flex-direction: column;
+
+      .layout-navbar {
+        min-height: 66px;
+      }
+
+      //create order - Screens/Orders/CreateOrder.js
+    }
+  }
+}
+
 //Navbar - components/Navbar.js
 .navbar-collapse {
   justify-content: flex-end;
@@ -51,8 +207,31 @@ body {
   }
 }
 
-@media (max-width: 1000px) {
+@media (min-width: 576px) {
+  .text-sm-right {
+    text-align: right !important;
+  }
+}
+@media (max-width: 991px) {
   .login-form {
     width: 50%;
+  }
+  .layout-sidenav {
+    position: fixed !important;
+    top: 0 !important;
+    height: 100% !important;
+    left: 0 !important;
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+    -webkit-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0);
+    will-change: transform, -webkit-transform;
+  }
+}
+
+@media (min-width: 992px) {
+  .container-fluid {
+    padding-right: 2rem;
+    padding-left: 2rem;
   }
 }

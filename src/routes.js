@@ -1,24 +1,21 @@
 import { Switch, Route, Redirect } from "react-router-dom";
-import { Home } from "./screens/Home";
-import { Login } from "./screens/Login";
+import { One } from "./screens/One/One";
+import { CreateOrder } from "./screens/Orders/CreateOrder";
+import { Three } from "./screens/Three/Three";
 
 export const useRoutes = (isLogin) => {
-  if (!isLogin) {
-    return (
-      <Switch>
-        <Route path="/login" exact>
-          <Login />
-        </Route>
-        <Redirect to="/login" />
-      </Switch>
-    );
-  }
   return (
     <Switch>
-      <Route path="/home" exact>
-        <Home />
+      <Route path="/one">
+        <One />
       </Route>
-      <Redirect to="home" />
+      <Route path="/create-order">
+        <CreateOrder />
+      </Route>
+      <Route path="/three">
+        <Three />
+      </Route>
+      <Redirect to="/one" />
     </Switch>
   );
 };

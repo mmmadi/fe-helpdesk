@@ -1,18 +1,26 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { logout } from "../redux/actions";
+import DefUser from "../images/def-user.png";
 
 export const Navbar = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const fio = useSelector((state) => state.data.data.fio);
 
+  const logoutHandler = () => {
+    dispatch(logout());
+    history.push("/");
+  };
+
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav
+      className="layout-navbar navbar navbar-expand-lg navbar-light bg-light"
+      style={{ boxShadow: "0 10px 30px 0 rgb(24 28 33 / 6%)" }}
+    >
       <div className="container-fluid">
-        <a className="navbar-brand" href="/">
-          HelpDesk
-        </a>
         <button
           className="navbar-toggler"
           type="button"
@@ -27,13 +35,20 @@ export const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <div className="dropdown">
             <button
-              className="btn btn-secondary dropdown-toggle dropdown-nav-button"
+              className="btn btn-secondary dropdown-toggle dropdown-nav-button text-dark"
               type="button"
               id="dropdownMenu2"
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              {fio}
+              <span>
+                <span className="px-1 mr-lg-2 ml-2 ml-lg-0">{fio}</span>
+                <img
+                  src={DefUser}
+                  alt="default user icon"
+                  className="ui-w-30 rounded-circle"
+                />
+              </span>
             </button>
             <ul
               className="dropdown-menu dropdown-menu-navbar"
@@ -53,7 +68,7 @@ export const Navbar = () => {
                 <button
                   className="dropdown-item"
                   type="button"
-                  onClick={() => dispatch(logout())}
+                  onClick={logoutHandler}
                 >
                   Выйти
                 </button>

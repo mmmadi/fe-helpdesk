@@ -1,9 +1,10 @@
 import { BrowserRouter as Router } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useRoutes } from "./routes";
-import { Navbar } from "./components/Navbar";
 import { checkAuth } from "./redux/actions";
 import { useEffect } from "react";
+import { Sidenav } from "./components/Sidenav";
+import { Login } from "./screens/Login";
 
 function App() {
   const dispatch = useDispatch();
@@ -17,9 +18,18 @@ function App() {
     dispatch(checkAuth());
   }, [dispatch]);
 
+  if (!isLogin) {
+    return <Login />;
+  }
+
   return (
     <Router>
-      {isLogin && <Navbar />} {routes}
+      <div className="layout-wrapper">
+        <div className="layout-inner">
+          <Sidenav />
+          {routes}
+        </div>
+      </div>
     </Router>
   );
 }
