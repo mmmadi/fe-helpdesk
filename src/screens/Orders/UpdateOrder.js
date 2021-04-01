@@ -1,42 +1,52 @@
 import { useEffect, useState } from "react";
-
+import { useLocation, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  createOrder,
-  getTasks,
-  getSpec,
-  getSubSpec,
-} from "../../redux/actions/orderActions";
+import { Navbar } from "../../components/Navbar";
 import { hideFullAlert } from "../../redux/actions/actions";
 import { Loader } from "../../components/Loader";
 import { FullAlert } from "../../components/FullAlert";
-import { Navbar } from "../../components/Navbar";
+import {
+  getTasks,
+  getSpec,
+  getSubSpec,
+  updateOrder,
+} from "../../redux/actions/orderActions";
 
-export const CreateOrder = () => {
+export const UpdateOrder = () => {
+  const location = useLocation();
+  const history = useHistory();
   const userId = useSelector((state) => state.auth.data.userId);
+  const updateData = location.state.updateData;
   const [form, setForm] = useState({
-    task: null,
-    spec: null,
-    sub_spec: null,
-    priority: "2",
-    subject: null,
-    description: null,
+    task: updateData[0].task_id,
+    spec: updateData[0].spec_id,
+    sub_spec: updateData[0].sub_spec_id,
+    priority: updateData[0].prioritet.toString(),
+    subject: updateData[0].subject,
+    description: updateData[0].description,
     userId: userId,
   });
   const [errors, setErrors] = useState(null);
   const [files, setFiles] = useState([]);
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.app.loading);
-  const alert = useSelector((state) => state.app.fullAlert);
   const tasks = useSelector((state) => state.order.tasks);
   const spec = useSelector((state) => state.order.spec);
   const sub_spec = useSelector((state) => state.order.sub_spec);
 
   useEffect(() => {
     dispatch(getTasks());
-    dispatch(getSpec(9999));
-    dispatch(getSubSpec(9999));
-  }, [dispatch]);
+    dispatch(getSpec(updateData[0].task_id));
+    dispatch(getSubSpec(updateData[0].spec_id));
+  }, [dispatch, updateData]);
+
+  useEffect(() => {
+    setFiles(
+      updateData[0].files.files.map((x) => {
+        return { name: x, base64: "from order" };
+      })
+    );
+  }, [updateData]);
 
   const openFileUpload = () => {
     const fileUpload = document.querySelector("#fileUpload");
@@ -119,7 +129,7 @@ export const CreateOrder = () => {
     setFiles(data);
   };
 
-  const addOrderHandler = (event) => {
+  const updateOrderHandler = (event) => {
     event.preventDefault();
     dispatch(hideFullAlert());
 
@@ -130,8 +140,8 @@ export const CreateOrder = () => {
       setErrors(error);
     } else {
       setErrors(null);
-      dispatch(createOrder(form, files));
-      clearForm();
+      dispatch(updateOrder(updateData[0].id, form, files));
+      history.push(`/orders/${updateData[0].id}`);
     }
   };
 
@@ -164,39 +174,18 @@ export const CreateOrder = () => {
     return errors;
   };
 
-  const clearForm = () => {
-    document.querySelector("#task").selectedIndex = 0;
-
-    document.querySelector("#middle").checked = true;
-    document.querySelector("#subject").value = "";
-    document.querySelector("#description").value = "";
-
-    if (spec) {
-      if (spec.length) {
-        document.querySelector("#spec").selectedIndex = 0;
-        document.querySelector("#sub_spec").selectedIndex = 0;
-      }
-    }
-
-    setForm({
-      task: null,
-      spec: null,
-      sub_spec: null,
-      priority: "2",
-      subject: null,
-      description: null,
-      userId: userId,
-    });
-    setFiles([]);
-  };
-
-  const closeAlert = () => {
-    dispatch(hideFullAlert());
-  };
-
   const closeFullAlert = () => {
     setErrors(null);
   };
+
+  useEffect(() => {
+    if (spec) {
+      if (!spec.length) {
+        setForm((f) => ({ ...f, spec: "", sub_spec: "" }));
+        dispatch(getSubSpec(9999));
+      }
+    }
+  }, [spec, dispatch]);
 
   const taskHandler = (event) => {
     setForm({ ...form, [event.target.name]: event.target.value });
@@ -205,7 +194,7 @@ export const CreateOrder = () => {
   };
 
   const specHandler = (event) => {
-    setForm({ ...form, [event.target.name]: event.target.value });
+    setForm({ ...form, [event.target.name]: event.target.value, sub_spec: "" });
 
     dispatch(getSubSpec(event.target.value));
   };
@@ -216,7 +205,7 @@ export const CreateOrder = () => {
       <div className="layout-content">
         <div className="create-order-section container-fluid flex-grow-1 container-p-y">
           <h4 className="font-weight-bold mb-4">
-            Создание новой заявки
+            Редактирование заявки
             <div className="text-muted text-tiny mt-1">
               <small className="font-weight-normal">Основная информация</small>
             </div>
@@ -236,14 +225,6 @@ export const CreateOrder = () => {
                             close={closeFullAlert}
                           />
                         ) : null}
-                        {alert ? (
-                          <FullAlert
-                            message={alert}
-                            type={"success"}
-                            section={true}
-                            close={closeAlert}
-                          />
-                        ) : null}
                       </div>
                     </div>
                     {/* Характер вопроса */}
@@ -257,7 +238,7 @@ export const CreateOrder = () => {
                       <div className="col-sm-10">
                         <select
                           className="form-select"
-                          defaultValue="Укажите..."
+                          value={form.task}
                           onChange={taskHandler}
                           id="task"
                           name="task"
@@ -290,8 +271,14 @@ export const CreateOrder = () => {
                           <div className="col-sm-10">
                             <select
                               className="form-select"
-                              defaultValue="Укажите..."
                               onChange={specHandler}
+                              value={
+                                form.spec === ""
+                                  ? spec
+                                    ? spec.length && "Укажите..."
+                                    : form.spec
+                                  : form.spec
+                              }
                               id="spec"
                               name="spec"
                             >
@@ -324,8 +311,14 @@ export const CreateOrder = () => {
                             <div className="col-sm-10">
                               <select
                                 className="form-select"
-                                defaultValue="Укажите..."
                                 onChange={changeHandler}
+                                value={
+                                  form.sub_spec === ""
+                                    ? sub_spec
+                                      ? sub_spec.length && "Укажите..."
+                                      : form.sub_spec
+                                    : form.sub_spec
+                                }
                                 id="sub_spec"
                                 name="sub_spec"
                               >
@@ -368,6 +361,7 @@ export const CreateOrder = () => {
                             type="radio"
                             name="priority"
                             onChange={changeHandler}
+                            checked={form.priority === "1"}
                             id="low"
                             value="1"
                           />
@@ -381,8 +375,8 @@ export const CreateOrder = () => {
                             type="radio"
                             name="priority"
                             onChange={changeHandler}
+                            checked={form.priority === "2"}
                             id="middle"
-                            defaultChecked
                             value="2"
                           />
                           <label className="form-check-label" htmlFor="middle">
@@ -395,6 +389,7 @@ export const CreateOrder = () => {
                             type="radio"
                             name="priority"
                             onChange={changeHandler}
+                            checked={form.priority === "3"}
                             id="high"
                             value="3"
                           />
@@ -418,6 +413,7 @@ export const CreateOrder = () => {
                             className="form-control"
                             autoComplete="false"
                             onChange={changeHandler}
+                            value={form.subject}
                             id="subject"
                             name="subject"
                           />
@@ -439,6 +435,7 @@ export const CreateOrder = () => {
                             className="form-control"
                             onChange={changeHandler}
                             placeholder="Напишите текст..."
+                            value={form.description}
                             style={{ height: 200 }}
                           ></textarea>
                           <div className="desc-footer">
@@ -491,17 +488,10 @@ export const CreateOrder = () => {
                           <button
                             className="btn btn-success"
                             style={{ marginRight: "0.5rem" }}
-                            onClick={addOrderHandler}
+                            onClick={updateOrderHandler}
                             disabled={loading && true}
                           >
-                            {loading ? <Loader /> : "Создать заявку"}
-                          </button>
-                          <button
-                            type="button"
-                            className="btn btn-secondary"
-                            onClick={clearForm}
-                          >
-                            Очистить форму
+                            {loading ? <Loader /> : "Редактировать заявку"}
                           </button>
                         </div>
                       </div>

@@ -4,14 +4,17 @@ import {
   LOGOUT,
   SHOW_ALERT,
   SHOW_LOADER,
-} from "./types";
-import { LOGIN } from "./types";
+  LOGIN,
+  SHOW_FULL_ALERT,
+  HIDE_FULL_ALERT,
+} from "../types";
+import { server } from "../../config/config.json";
 
 export function login(form) {
   return async (dispatch) => {
     try {
       dispatch(showLoader());
-      const response = await fetch("http://localhost:5000/api/login", {
+      const response = await fetch(`${server}/api/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json;charset=utf-8",
@@ -28,7 +31,7 @@ export function login(form) {
           token: json.token,
           fio: json.fio,
           id_struct: json.id_struct,
-          id_dolgnost: json.id_dolgnost,
+          have_task: json.have_task,
         })
       );
       dispatch(hideLoader());
@@ -49,11 +52,26 @@ export function lcLogin(userData) {
 }
 
 export function checkAuth() {
-  return (dispatch) => {
-    const data = JSON.parse(localStorage.getItem("userData"));
+  return async (dispatch) => {
+    try {
+      const data = JSON.parse(localStorage.getItem("userData"));
 
-    if (data && data.token) {
-      dispatch(lcLogin(data));
+      if (data) {
+        const response = await fetch(`${server}/api/check-auth`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json;charset=utf-8",
+            Authorization: `Bearer ${data.token}`,
+          },
+        });
+        const json = await response.json();
+        const newData = { ...data, token: json.token };
+        dispatch(lcLogin(newData));
+        localStorage.setItem("userData", JSON.stringify(newData));
+      }
+      return;
+    } catch (e) {
+      console.log(e.message);
     }
   };
 }
@@ -93,5 +111,19 @@ export function showAlert(message) {
 export function hideAlert() {
   return {
     type: HIDE_ALERT,
+  };
+}
+
+export function showFullAlert(message) {
+  return (dispath) => {
+    dispath({
+      type: SHOW_FULL_ALERT,
+      payload: message,
+    });
+  };
+}
+export function hideFullAlert() {
+  return {
+    type: HIDE_FULL_ALERT,
   };
 }

@@ -1,17 +1,23 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import Logo from "../images/favicon.ico";
+import { elementList } from "../components/const/SidenavEl";
+import { Badge } from "../components/Badge";
+import { getCount } from "../redux/actions/orderActions";
 
 export const Sidenav = () => {
-  const fakeClick = (event) => {
-    event.preventDefault();
-    return;
-  };
+  const [activeIndex, setActiveIndex] = useState(1);
+  const dispatch = useDispatch();
+  const count = useSelector((state) => state.order.count);
+  const userId = useSelector((state) => state.auth.data.userId);
 
-  const orderToggle = () => {
-    const orderMenu = document.querySelector(".sidenav-menu");
-    const toggleButton = document.querySelector(".sidenav-toggle");
-    toggleButton.classList.toggle("open");
-    orderMenu.classList.toggle("open");
+  useEffect(() => {
+    dispatch(getCount(userId));
+  }, [dispatch, userId]);
+
+  const activeHandle = (index) => {
+    setActiveIndex(index);
   };
 
   return (
@@ -24,53 +30,26 @@ export const Sidenav = () => {
       </div>
       <div className="sidenav-divider"></div>
       <ul className="sidenav-content">
-        <li className="sidenav-item active">
-          <Link to="/one" className="sidenav-link">
-            One
-          </Link>
-        </li>
-        <li className="sidenav-item">
-          <button onClick={orderToggle} className="sidenav-link sidenav-toggle">
-            Заявки
-          </button>
-          <ul className="sidenav-menu">
-            <li className="sidenav-item">
-              <Link to="/create-order" className="sidenav-link">
-                Создать заявку
+        {elementList.map((el) => {
+          return (
+            <li
+              className={`sidenav-item ${
+                activeIndex === el.id ? "active" : ""
+              }`}
+              key={el.id}
+            >
+              <Link
+                to={el.route}
+                className="sidenav-link"
+                onClick={() => activeHandle(el.id)}
+              >
+                {el.text}
+                {el.badge ? <Badge count={count} /> : null}
               </Link>
             </li>
-            <li className="sidenav-item">
-              <a href="#!" onClick={fakeClick} className="sidenav-link">
-                Список заявок
-              </a>
-            </li>
-            <li className="sidenav-item">
-              <a href="#!" onClick={fakeClick} className="sidenav-link">
-                Удалённые заявки
-              </a>
-            </li>
-          </ul>
-        </li>
-        <li className="sidenav-item">
-          <Link to="/three" className="sidenav-link">
-            Three
-          </Link>
-        </li>
-        <li className="sidenav-item">
-          <a href="#!" className="sidenav-link">
-            Four
-          </a>
-        </li>
-        <li className="sidenav-item">
-          <a href="#!" className="sidenav-link">
-            Five
-          </a>
-        </li>
-        <li className="sidenav-item">
-          <a href="#!" className="sidenav-link">
-            Six
-          </a>
-        </li>
+          );
+        })}
+
         <li className="sidenav-divider"></li>
       </ul>
     </div>

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Alert } from "../components/Alert";
 import { Loader } from "../components/Loader";
-import { login } from "../redux/actions";
+import { login } from "../redux/actions/actions";
 
 export const Login = () => {
   const [form, setForm] = useState({
@@ -29,7 +29,9 @@ export const Login = () => {
     <div className="login-form">
       <form onSubmit={loginHandler}>
         <h3>Login</h3>
-        {alert ? <Alert message={alert} /> : null}
+        {alert ? (
+          <Alert message={alert} type={"warning"} section={false} />
+        ) : null}
         <div className="mb-3">
           <label htmlFor="email-input" className="form-label">
             Email

@@ -1,18 +1,18 @@
+import { useEffect } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useRoutes } from "./routes";
-import { checkAuth } from "./redux/actions";
-import { useEffect } from "react";
+import { checkAuth } from "./redux/actions/actions";
 import { Sidenav } from "./components/Sidenav";
 import { Login } from "./screens/Login";
 
 function App() {
   const dispatch = useDispatch();
-  const data = useSelector((state) => state.data.data);
+  const { data } = useSelector((state) => state.auth);
 
   const isLogin = data.token ? true : false;
 
-  const routes = useRoutes(isLogin);
+  const routes = useRoutes();
 
   useEffect(() => {
     dispatch(checkAuth());

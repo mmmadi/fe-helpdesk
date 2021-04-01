@@ -1,14 +1,14 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { logout } from "../redux/actions";
+import { logout } from "../redux/actions/actions";
 import DefUser from "../images/def-user.png";
 
 export const Navbar = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const fio = useSelector((state) => state.data.data.fio);
+  const fio = useSelector((state) => state.auth.data.fio);
 
   const logoutHandler = () => {
     dispatch(logout());
@@ -56,12 +56,7 @@ export const Navbar = () => {
             >
               <li>
                 <button className="dropdown-item" type="button">
-                  Action
-                </button>
-              </li>
-              <li>
-                <button className="dropdown-item" type="button">
-                  Another action
+                  Настройки
                 </button>
               </li>
               <li>
