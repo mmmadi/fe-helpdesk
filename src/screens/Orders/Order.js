@@ -6,6 +6,7 @@ import {
   getOrder,
   takeInWork,
   doneOrder,
+  cancelOrder,
 } from "../../redux/actions/orderActions";
 import { hideFullAlert } from "../../redux/actions/actions";
 import { ActionBtns } from "../../components/order/ActionBtns";
@@ -28,6 +29,10 @@ export const Order = () => {
   useEffect(() => {
     dispatch(getOrder(orderId));
   }, [dispatch, orderId]);
+
+  const cancelOrderHandlder = (param) => {
+    dispatch(cancelOrder(orderId, userId, param));
+  };
 
   const takeToWork = (param) => {
     dispatch(takeInWork(orderId, userId, param));
@@ -86,6 +91,7 @@ export const Order = () => {
                 <ActionBtns
                   takeToWork={takeToWork}
                   doneWorkHandler={doneWorkHandler}
+                  cancelOrderHandlder={cancelOrderHandlder}
                   userData={userData}
                   order={order}
                   cancelData={cancelData}

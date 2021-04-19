@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-
 import { useDispatch, useSelector } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTag } from "@fortawesome/free-solid-svg-icons";
 import {
   createOrder,
   getTasks,
@@ -16,8 +17,8 @@ export const CreateOrder = () => {
   const userId = useSelector((state) => state.auth.data.userId);
   const [form, setForm] = useState({
     task: null,
-    spec: null,
-    sub_spec: null,
+    spec: "",
+    sub_spec: "",
     priority: "2",
     subject: null,
     description: null,
@@ -34,8 +35,6 @@ export const CreateOrder = () => {
 
   useEffect(() => {
     dispatch(getTasks());
-    dispatch(getSpec(9999));
-    dispatch(getSubSpec(9999));
   }, [dispatch]);
 
   const openFileUpload = () => {
@@ -65,6 +64,7 @@ export const CreateOrder = () => {
           reader.onload = (e) => {
             obj.push({
               name: file.name,
+              hashName: `${Date.now().toString()}_` + file.name,
               base64: e.target.result.replace("data:image/png;base64,", ""),
             });
             setFiles([...files, ...obj]);
@@ -73,6 +73,7 @@ export const CreateOrder = () => {
           reader.onload = (e) => {
             obj.push({
               name: file.name,
+              hashName: `${Date.now().toString()}_` + file.name,
               base64: e.target.result.replace("data:image/jpeg;base64,", ""),
             });
             setFiles([...files, ...obj]);
@@ -82,6 +83,7 @@ export const CreateOrder = () => {
         reader.onload = (e) => {
           obj.push({
             name: file.name,
+            hashName: `${Date.now().toString()}_` + file.name,
             base64: e.target.result.replace(
               "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,",
               ""
@@ -93,6 +95,7 @@ export const CreateOrder = () => {
         reader.onload = (e) => {
           obj.push({
             name: file.name,
+            hashName: `${Date.now().toString()}_` + file.name,
             base64: e.target.result.replace(
               "data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;base64,",
               ""
@@ -104,8 +107,10 @@ export const CreateOrder = () => {
         reader.onload = (e) => {
           obj.push({
             name: file.name,
+            hashName: `${Date.now().toString()}_` + file.name,
             base64: e.target.result.replace("data:text/plain;base64,", ""),
           });
+
           setFiles([...files, ...obj]);
         };
       }
@@ -115,7 +120,7 @@ export const CreateOrder = () => {
   };
 
   const fileRemoveHandler = (name) => {
-    const data = files.filter((el) => el.name !== name);
+    const data = files.filter((el) => el.hashName !== name);
     setFiles(data);
   };
 
@@ -171,17 +176,13 @@ export const CreateOrder = () => {
     document.querySelector("#subject").value = "";
     document.querySelector("#description").value = "";
 
-    if (spec) {
-      if (spec.length) {
-        document.querySelector("#spec").selectedIndex = 0;
-        document.querySelector("#sub_spec").selectedIndex = 0;
-      }
-    }
+    dispatch(getSpec(99999));
+    dispatch(getSubSpec(99999));
 
     setForm({
       task: null,
-      spec: null,
-      sub_spec: null,
+      spec: "",
+      sub_spec: "",
       priority: "2",
       subject: null,
       description: null,
@@ -198,6 +199,15 @@ export const CreateOrder = () => {
     setErrors(null);
   };
 
+  useEffect(() => {
+    if (spec) {
+      if (!spec.length) {
+        setForm((f) => ({ ...f, spec: "", sub_spec: "" }));
+        dispatch(getSubSpec(9999));
+      }
+    }
+  }, [spec, dispatch]);
+
   const taskHandler = (event) => {
     setForm({ ...form, [event.target.name]: event.target.value });
 
@@ -205,7 +215,7 @@ export const CreateOrder = () => {
   };
 
   const specHandler = (event) => {
-    setForm({ ...form, [event.target.name]: event.target.value });
+    setForm({ ...form, [event.target.name]: event.target.value, sub_spec: "" });
 
     dispatch(getSubSpec(event.target.value));
   };
@@ -216,6 +226,7 @@ export const CreateOrder = () => {
       <div className="layout-content">
         <div className="create-order-section container-fluid flex-grow-1 container-p-y">
           <h4 className="font-weight-bold mb-4">
+            <FontAwesomeIcon icon={faTag} className="icon" />
             Создание новой заявки
             <div className="text-muted text-tiny mt-1">
               <small className="font-weight-normal">Основная информация</small>
@@ -324,7 +335,13 @@ export const CreateOrder = () => {
                             <div className="col-sm-10">
                               <select
                                 className="form-select"
-                                defaultValue="Укажите..."
+                                value={
+                                  form.sub_spec === ""
+                                    ? sub_spec
+                                      ? sub_spec.length && "Укажите..."
+                                      : form.sub_spec
+                                    : form.sub_spec
+                                }
                                 onChange={changeHandler}
                                 id="sub_spec"
                                 name="sub_spec"

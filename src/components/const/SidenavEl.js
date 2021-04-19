@@ -1,3 +1,8 @@
+import { faTachometerAlt } from "@fortawesome/free-solid-svg-icons";
+import { faTag } from "@fortawesome/free-solid-svg-icons";
+import { faListAlt } from "@fortawesome/free-solid-svg-icons";
+import { faGraduationCap } from "@fortawesome/free-solid-svg-icons";
+
 export const elementList = [
   {
     id: 1,
@@ -5,6 +10,7 @@ export const elementList = [
     route: "/dashboard",
     text: "Панель приборов",
     badge: false,
+    icon: faTachometerAlt,
   },
   {
     id: 2,
@@ -12,6 +18,7 @@ export const elementList = [
     route: "/create-order",
     text: "Создать заявку",
     badge: false,
+    icon: faTag,
   },
   {
     id: 3,
@@ -19,13 +26,7 @@ export const elementList = [
     route: "/orders",
     text: "Список заявок",
     badge: true,
-  },
-  {
-    id: 4,
-    active: false,
-    route: "/dashboard",
-    text: "Отменёные заявки",
-    badge: false,
+    icon: faListAlt,
   },
   {
     id: 5,
@@ -33,5 +34,6 @@ export const elementList = [
     route: "/help",
     text: "Центр знаний",
     badge: false,
+    icon: faGraduationCap,
   },
 ];

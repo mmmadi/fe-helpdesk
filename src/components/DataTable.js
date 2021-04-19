@@ -5,7 +5,7 @@ import { Loader } from "../components/Loader";
 import { StatusStyle } from "../components/const/StatusStyle";
 import { PriorityStyle } from "../components/const/PriorityStyle";
 
-export const DataTable = ({ orders }) => {
+export const DataTable = ({ orders, param }) => {
   const data = orders ? orders : [];
   const loading = useSelector((state) => state.app.loading);
   const { have_task } = useSelector((state) => state.auth.data);
@@ -45,11 +45,13 @@ export const DataTable = ({ orders }) => {
                 <center>{el.task}</center>
               </td>
             )}
-            {data[0].param === 2 && (
-              <td>
-                <center>{el.task}</center>
-              </td>
-            )}
+            {have_task
+              ? param === 2 && (
+                  <td>
+                    <center>{el.task}</center>
+                  </td>
+                )
+              : null}
             <td>
               <center>{el.spec}</center>
             </td>

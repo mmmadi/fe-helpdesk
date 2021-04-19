@@ -5,6 +5,7 @@ import DefUser from "../../images/def-user.png";
 import { StatusChange } from "./StatusChange";
 import { StatusStyle } from "../const/StatusStyle";
 import { PriorityStyle } from "../const/PriorityStyle";
+import { server } from "../../config/config.json";
 
 export const OrderBody = ({
   order,
@@ -24,11 +25,19 @@ export const OrderBody = ({
           <div className="col-sm-6 col-md-8 col-lg-7 col-xl-8">
             <div className="media align-item-center mb-1">
               <div className="position-relative">
-                <img
-                  src={DefUser}
-                  alt="default user icon"
-                  className="ui-w-50 rounded-circle"
-                />
+                {order[0].image ? (
+                  <img
+                    src={`${server}/static/users/${order[0].id_user_ins}/${order[0].image}`}
+                    alt="default user icon"
+                    className="ui-w-50 rounded-circle"
+                  />
+                ) : (
+                  <img
+                    src={DefUser}
+                    alt="default user icon"
+                    className="ui-w-50 rounded-circle"
+                  />
+                )}
               </div>
               <div className="media-body ml-3">
                 <h5 className="mb-1">{order[0].author}</h5>
@@ -92,11 +101,11 @@ export const OrderBody = ({
                   <div className="file-element" key={index}>
                     <span>
                       <a
-                        href={`http://localhost:5000/static/orders/${order[0].id}/${file}`}
+                        href={`${server}/static/orders/${order[0].id}/${file.hashname}`}
                         target="_blank"
                         rel="noreferrer"
                       >
-                        {file}
+                        {file.name}
                       </a>
                     </span>
                   </div>

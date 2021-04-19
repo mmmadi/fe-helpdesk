@@ -1,4 +1,7 @@
 import DefUser from "../../images/def-user.png";
+import { server } from "../../config/config.json";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faClock } from "@fortawesome/free-solid-svg-icons";
 
 export const Comments = ({ commentsData }) => {
   return (
@@ -9,14 +12,23 @@ export const Comments = ({ commentsData }) => {
             <div className="card-body">
               <div className="media">
                 <div className="position-relative">
-                  <img
-                    src={DefUser}
-                    alt="default user icon"
-                    className="ui-w-40 rounded-circle"
-                  />
+                  {comment.img ? (
+                    <img
+                      src={`${server}/static/users/${comment.id_user_ins}/${comment.img}`}
+                      alt="default user icon"
+                      className="ui-w-40 rounded-circle"
+                    />
+                  ) : (
+                    <img
+                      src={DefUser}
+                      alt="default user icon"
+                      className="ui-w-40 rounded-circle"
+                    />
+                  )}
                 </div>
                 <div className="media-body ml-3">
                   <div className="float-right text-muted small">
+                    <FontAwesomeIcon icon={faClock} className="icon" />
                     {comment.date_ins}
                   </div>
                   <span>{comment.fio}</span>
@@ -33,11 +45,11 @@ export const Comments = ({ commentsData }) => {
                     <div className="file-element" key={index}>
                       <span>
                         <a
-                          href={`http://localhost:5000/static/orders/${comment.order_id}/comments/${comment.id}/${file}`}
+                          href={`${server}/static/orders/${comment.order_id}/comments/${comment.id}/${file.hashname}`}
                           target="_blank"
                           rel="noreferrer"
                         >
-                          {file}
+                          {file.name}
                         </a>
                       </span>
                     </div>

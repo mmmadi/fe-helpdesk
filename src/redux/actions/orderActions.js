@@ -156,6 +156,30 @@ export function getOrders(param, userId, struct_id) {
   };
 }
 
+export function getFOrders(param, userId, form) {
+  return async (dispatch) => {
+    try {
+      dispatch(showLoader());
+      const query = await fetch(`${server}/api/get-filter-orders`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json;charset=utf-8",
+        },
+        body: JSON.stringify({
+          param,
+          userId,
+          form,
+        }),
+      });
+      const json = await query.json();
+      dispatch({ type: GET_ORDERS, payload: json });
+      dispatch(hideLoader());
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+}
+
 export function getCount(userId) {
   return async (dispatch) => {
     try {
@@ -224,20 +248,19 @@ export function takeInWork(id, userId, param) {
   };
 }
 
-export function cancelOrder(id, form, files) {
+export function cancelOrder(id, userId, param) {
   return async (dispatch) => {
     try {
       dispatch(hideFullAlert());
       dispatch(showLoader());
-      const query = await fetch(`${server}/api/cancel-order`, {
-        method: "POST",
+      const query = await fetch(`${server}/api/cancel-order/${id}`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json;charset=utf-8",
         },
         body: JSON.stringify({
-          id,
-          form,
-          files,
+          userId,
+          param,
         }),
       });
       const json = await query.json();

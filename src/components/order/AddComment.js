@@ -1,3 +1,6 @@
+import { faComment } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 export const AddComment = ({
   openFileUpload,
   fileChangeHandler,
@@ -70,6 +73,7 @@ export const AddComment = ({
                 className="btn btn-outline-success pull-right"
                 onClick={addCommentHandler}
               >
+                <FontAwesomeIcon icon={faComment} className="icon" />
                 Отправить
               </button>
             </div>

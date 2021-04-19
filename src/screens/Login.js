@@ -28,7 +28,7 @@ export const Login = () => {
   return (
     <div className="login-form">
       <form onSubmit={loginHandler}>
-        <h3>Login</h3>
+        <h3>Вход</h3>
         {alert ? (
           <Alert message={alert} type={"warning"} section={false} />
         ) : null}

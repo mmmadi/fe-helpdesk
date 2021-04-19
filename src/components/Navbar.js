@@ -1,14 +1,17 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCog, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import { Link, useHistory } from "react-router-dom";
 import { logout } from "../redux/actions/actions";
 import DefUser from "../images/def-user.png";
+import { server } from "../config/config.json";
 
 export const Navbar = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const fio = useSelector((state) => state.auth.data.fio);
+  const { fio, userImg, userId } = useSelector((state) => state.auth.data);
 
   const logoutHandler = () => {
     dispatch(logout());
@@ -43,11 +46,19 @@ export const Navbar = () => {
             >
               <span>
                 <span className="px-1 mr-lg-2 ml-2 ml-lg-0">{fio}</span>
-                <img
-                  src={DefUser}
-                  alt="default user icon"
-                  className="ui-w-30 rounded-circle"
-                />
+                {userImg ? (
+                  <img
+                    src={`${server}/static/users/${userId}/${userImg}`}
+                    alt="default user icon"
+                    className="ui-w-30 rounded-circle"
+                  />
+                ) : (
+                  <img
+                    src={DefUser}
+                    alt="default user icon"
+                    className="ui-w-30 rounded-circle"
+                  />
+                )}
               </span>
             </button>
             <ul
@@ -55,9 +66,13 @@ export const Navbar = () => {
               aria-labelledby="dropdownMenu2"
             >
               <li>
-                <button className="dropdown-item" type="button">
+                <Link to="/profile" className="dropdown-item">
+                  <FontAwesomeIcon
+                    icon={faCog}
+                    className="icon text-lightest"
+                  />
                   Настройки
-                </button>
+                </Link>
               </li>
               <li>
                 <button
@@ -65,6 +80,10 @@ export const Navbar = () => {
                   type="button"
                   onClick={logoutHandler}
                 >
+                  <FontAwesomeIcon
+                    icon={faSignOutAlt}
+                    className="icon text-danger"
+                  />
                   Выйти
                 </button>
               </li>

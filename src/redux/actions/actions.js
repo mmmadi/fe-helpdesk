@@ -7,6 +7,7 @@ import {
   LOGIN,
   SHOW_FULL_ALERT,
   HIDE_FULL_ALERT,
+  GET_DASHBOARD_DATA,
 } from "../types";
 import { server } from "../../config/config.json";
 
@@ -32,6 +33,7 @@ export function login(form) {
           fio: json.fio,
           id_struct: json.id_struct,
           have_task: json.have_task,
+          userImg: json.userImg,
         })
       );
       dispatch(hideLoader());
@@ -81,6 +83,10 @@ export function logout() {
     dispatch({
       type: LOGOUT,
     });
+
+    dispatch({ type: GET_DASHBOARD_DATA, payload: null });
+    dispatch(hideAlert);
+    dispatch(hideFullAlert);
 
     localStorage.removeItem("userData");
   };

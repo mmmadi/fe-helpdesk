@@ -1,8 +1,11 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
-import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
+import {
+  faTrashAlt,
+  faPencilAlt,
+  faTicketAlt,
+} from "@fortawesome/free-solid-svg-icons";
 import { deleteOrder } from "../../redux/actions/orderActions";
 import { showFullAlert } from "../../redux/actions/actions";
 import { AlertModal } from "../const/AlertModal";
@@ -79,6 +82,7 @@ export const OrderHead = ({ order, userData, cancelData, doneData }) => {
 
   return (
     <h4 className="font-weight-bold mb-4">
+      <FontAwesomeIcon icon={faTicketAlt} className="icon" />
       Заявка № {order[0].id}
       {userId === order[0].id_user_ins && (
         <>

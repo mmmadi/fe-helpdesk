@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import Logo from "../images/favicon.ico";
@@ -43,6 +44,7 @@ export const Sidenav = () => {
                 className="sidenav-link"
                 onClick={() => activeHandle(el.id)}
               >
+                <FontAwesomeIcon icon={el.icon} />
                 {el.text}
                 {el.badge ? <Badge count={count} /> : null}
               </Link>

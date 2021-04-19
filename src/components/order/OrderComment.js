@@ -51,6 +51,7 @@ export const OrderComment = () => {
           reader.onload = (e) => {
             obj.push({
               name: file.name,
+              hashName: `${Date.now().toString()}_` + file.name,
               base64: e.target.result.replace("data:image/png;base64,", ""),
             });
             setFiles([...files, ...obj]);
@@ -59,6 +60,7 @@ export const OrderComment = () => {
           reader.onload = (e) => {
             obj.push({
               name: file.name,
+              hashName: `${Date.now().toString()}_` + file.name,
               base64: e.target.result.replace("data:image/jpeg;base64,", ""),
             });
             setFiles([...files, ...obj]);
@@ -68,6 +70,7 @@ export const OrderComment = () => {
         reader.onload = (e) => {
           obj.push({
             name: file.name,
+            hashName: `${Date.now().toString()}_` + file.name,
             base64: e.target.result.replace(
               "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,",
               ""
@@ -79,6 +82,7 @@ export const OrderComment = () => {
         reader.onload = (e) => {
           obj.push({
             name: file.name,
+            hashName: `${Date.now().toString()}_` + file.name,
             base64: e.target.result.replace(
               "data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;base64,",
               ""
@@ -90,6 +94,7 @@ export const OrderComment = () => {
         reader.onload = (e) => {
           obj.push({
             name: file.name,
+            hashName: `${Date.now().toString()}_` + file.name,
             base64: e.target.result.replace("data:text/plain;base64,", ""),
           });
           setFiles([...files, ...obj]);
@@ -101,7 +106,7 @@ export const OrderComment = () => {
   };
 
   const fileRemoveHandler = (name) => {
-    const data = files.filter((el) => el.name !== name);
+    const data = files.filter((el) => el.hashName !== name);
     setFiles(data);
   };
 

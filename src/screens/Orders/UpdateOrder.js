@@ -43,7 +43,7 @@ export const UpdateOrder = () => {
   useEffect(() => {
     setFiles(
       updateData[0].files.files.map((x) => {
-        return { name: x, base64: "from order" };
+        return { name: x.name, hashName: x.hashname, base64: "from order" };
       })
     );
   }, [updateData]);
@@ -75,6 +75,7 @@ export const UpdateOrder = () => {
           reader.onload = (e) => {
             obj.push({
               name: file.name,
+              hashName: `${Date.now().toString()}_` + file.name,
               base64: e.target.result.replace("data:image/png;base64,", ""),
             });
             setFiles([...files, ...obj]);
@@ -83,6 +84,7 @@ export const UpdateOrder = () => {
           reader.onload = (e) => {
             obj.push({
               name: file.name,
+              hashName: `${Date.now().toString()}_` + file.name,
               base64: e.target.result.replace("data:image/jpeg;base64,", ""),
             });
             setFiles([...files, ...obj]);
@@ -92,6 +94,7 @@ export const UpdateOrder = () => {
         reader.onload = (e) => {
           obj.push({
             name: file.name,
+            hashName: `${Date.now().toString()}_` + file.name,
             base64: e.target.result.replace(
               "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,",
               ""
@@ -103,6 +106,7 @@ export const UpdateOrder = () => {
         reader.onload = (e) => {
           obj.push({
             name: file.name,
+            hashName: `${Date.now().toString()}_` + file.name,
             base64: e.target.result.replace(
               "data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;base64,",
               ""
@@ -114,6 +118,7 @@ export const UpdateOrder = () => {
         reader.onload = (e) => {
           obj.push({
             name: file.name,
+            hashName: `${Date.now().toString()}_` + file.name,
             base64: e.target.result.replace("data:text/plain;base64,", ""),
           });
           setFiles([...files, ...obj]);
@@ -125,7 +130,7 @@ export const UpdateOrder = () => {
   };
 
   const fileRemoveHandler = (name) => {
-    const data = files.filter((el) => el.name !== name);
+    const data = files.filter((el) => el.hashName !== name);
     setFiles(data);
   };
 
@@ -471,7 +476,9 @@ export const UpdateOrder = () => {
                                 <button
                                   type="button"
                                   className="close-button"
-                                  onClick={() => fileRemoveHandler(file.name)}
+                                  onClick={() =>
+                                    fileRemoveHandler(file.hashName)
+                                  }
                                 >
                                   &times;
                                 </button>
