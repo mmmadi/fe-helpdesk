@@ -1,7 +1,11 @@
 import { Mail } from "./Mail";
 import { WhatsApp } from "./WhatsApp";
 
-export const Notifications = () => {
+export const Notifications = ({
+  notifications,
+  userNotifications,
+  changeNotifyHandler,
+}) => {
   return (
     <div
       className="tab-pane fade notification-tab"
@@ -9,10 +13,13 @@ export const Notifications = () => {
       role="tabpanel"
       aria-labelledby="account-notifications-tab"
     >
-      <Mail />
+      <Mail
+        notifications={notifications}
+        userNotifications={userNotifications}
+        changeNotifyHandler={changeNotifyHandler}
+      />
       <hr />
       <WhatsApp />
-      <hr />
     </div>
   );
 };

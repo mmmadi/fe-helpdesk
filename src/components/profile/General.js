@@ -1,29 +1,41 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import NumberFormat from "react-number-format";
 import defUser from "../../images/def-user.png";
 import { server } from "../../config/config.json";
 
-export const General = ({ data, userImg, change, userId }) => {
-  const [phone, setPhone] = useState("+7");
+export const General = ({
+  data,
+  userImg,
+  changeAvatar,
+  changeGeneral,
+  userId,
+}) => {
+  const [phone, setPhone] = useState("");
 
   const changeHandler = (event) => {
-    setPhone(event.target.value);
+    const formated = event.target.value.replace("+7-", "");
+
+    setPhone(formated.replaceAll(/[()-]/g, ""));
   };
+
+  useEffect(() => {
+    setPhone(data ? (data[0].phone ? data[0].phone : "") : "");
+  }, [data]);
 
   const fileChangeHandler = (event) => {
     const file = event.target.files[0];
-    console.log(file);
 
     const reader = new FileReader();
     if (file.type.match("png")) {
       reader.onload = (e) => {
-        change({
+        changeAvatar({
           name: file.name,
           base64: e.target.result.replace("data:image/png;base64,", ""),
         });
       };
     } else {
       reader.onload = (e) => {
-        change({
+        changeAvatar({
           name: file.name,
           base64: e.target.result.replace("data:image/jpeg;base64,", ""),
         });
@@ -76,36 +88,51 @@ export const General = ({ data, userImg, change, userId }) => {
       <div className="card-body">
         <div className="form-group">
           <label className="form-label">Фамилия</label>
-          <div className="form-control mb-1">Test</div>
+          <div className="form-control mb-1">
+            {data ? data[0].surname : "Фамилия"}
+          </div>
         </div>
         <div className="form-group">
           <label className="form-label">Имя</label>
-          <div className="form-control mb-1">Test</div>
+          <div className="form-control mb-1">{data ? data[0].name : "Имя"}</div>
         </div>
         <div className="form-group">
           <label className="form-label">Отчество</label>
-          <div className="form-control mb-1">Test</div>
+          <div className="form-control mb-1">
+            {data ? data[0].fathername : "Отчество"}
+          </div>
         </div>
         <div className="form-group">
           <label className="form-label">Email</label>
-          <div className="form-control mb-1">Test@test.com</div>
+          <div className="form-control mb-1">
+            {data ? data[0].mail : "Email"}
+          </div>
         </div>
         <div className="form-group">
           <label className="form-label">Отдел</label>
-          <div className="form-control mb-1">Test</div>
+          <div className="form-control mb-1">
+            {data ? data[0].struct_name : "Отдел"}
+          </div>
         </div>
         <div className="form-group">
           <label className="form-label">Телефон</label>
-          <input
-            type="text"
-            value={phone}
+          <NumberFormat
+            format="+7-(###)-###-####"
+            placeholder="+7-(777)-777-7777"
+            mask="_"
             className="form-control mb-1"
+            value={phone}
             onChange={changeHandler}
           />
         </div>
         <hr />
         <div className="text-right mt-3">
-          <button type="button" className="btn btn-primary">
+          <button
+            type="button"
+            className="btn btn-primary"
+            disabled={phone.match("_") || phone === ""}
+            onClick={() => changeGeneral(phone)}
+          >
             Сохранить
           </button>
         </div>

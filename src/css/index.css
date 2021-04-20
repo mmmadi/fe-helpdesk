@@ -861,6 +861,11 @@ hr {
   cursor: pointer;
 }
 
+.layout-wrapper .layout-inner .layout-container .layout-content .profile .notification-tab .checkbox-select .select-item input,
+.layout-wrapper .layout-inner .layout-container .layout-content .profile .notification-tab .w-checkbox-select .select-item input {
+  margin-right: 0.5rem;
+}
+
 .layout-wrapper .layout-inner .layout-container .layout-content .profile .notification-tab .checkbox-select .select-item.checked,
 .layout-wrapper .layout-inner .layout-container .layout-content .profile .notification-tab .w-checkbox-select .select-item.checked {
   background-color: rgba(24, 28, 33, 0.06);
@@ -876,6 +881,10 @@ hr {
 
 .layout-wrapper .layout-inner .layout-container .layout-content .profile .with-errors .alert {
   margin: 1rem 1rem;
+}
+
+.layout-wrapper .layout-inner .layout-container .layout-content .profile .with-errors .alert-whatsapp {
+  margin: 1rem 0 !important;
 }
 
 .layout-wrapper .layout-inner .layout-container .layout-content .profile .list-group button:focus {

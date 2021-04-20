@@ -1,31 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 
 export const WhatsApp = () => {
-  const [wOptions, setWOptions] = useState([
-    {
-      id: 1,
-      value: "first",
-      checked: true,
-    },
-    {
-      id: 2,
-      value: "second",
-      checked: false,
-    },
-    {
-      id: 3,
-      value: "third",
-      checked: false,
-    },
-  ]);
+  const [wOptions, setWOptions] = useState([]);
 
-  const [checkedWOptions, setCheckedWOptions] = useState([
-    {
-      id: 1,
-      value: "first",
-      checked: true,
-    },
-  ]);
+  const [checkedWOptions, setCheckedWOptions] = useState([]);
 
   const ref = useRef(null);
   useOutsideAlerter(ref);
@@ -134,6 +112,14 @@ export const WhatsApp = () => {
             </ul>
           </div>
         </div>
+      </div>
+      <div className="alert alert-primary alert-whatsapp fade show">
+        В данный момент этот вид уведомлений отключён в системе.
+      </div>
+      <div className="text-right" style={{ marginTop: ".5rem" }}>
+        <button type="button" className="btn btn-primary" disabled>
+          Сохранить
+        </button>
       </div>
     </div>
   );

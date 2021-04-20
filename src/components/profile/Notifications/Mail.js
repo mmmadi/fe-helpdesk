@@ -1,28 +1,33 @@
 import { useEffect, useRef, useState } from "react";
 
-export const Mail = () => {
-  const [options, setOptions] = useState([
-    {
-      id: 1,
-      value: "first",
-      checked: true,
-    },
-    {
-      id: 2,
-      value: "second",
-      checked: true,
-    },
-    {
-      id: 3,
-      value: "third",
-      checked: true,
-    },
-  ]);
-
-  const [checkedOptions, setCheckedOptions] = useState(options);
+export const Mail = ({
+  notifications,
+  userNotifications,
+  changeNotifyHandler,
+}) => {
+  const [options, setOptions] = useState([]);
+  const [checkedOptions, setCheckedOptions] = useState([]);
 
   const ref = useRef(null);
   useOutsideAlerter(ref);
+
+  useEffect(() => {
+    setCheckedOptions(userNotifications);
+
+    const newOptions = [];
+
+    notifications.map((x) => {
+      const param = userNotifications.find((s) => s.id === x.id);
+
+      if (param) {
+        return newOptions.push({ ...x, checked: param.checked });
+      } else {
+        return newOptions.push({ ...x, checked: false });
+      }
+    });
+
+    setOptions(newOptions);
+  }, [notifications, userNotifications]);
 
   const toggle = () => {
     const select = document.querySelector(".checkbox-select");
@@ -107,7 +112,7 @@ export const Mail = () => {
                   >
                     ×
                   </span>
-                  {option.value}
+                  {option.name}
                 </li>
               ))}
             </ul>
@@ -122,12 +127,27 @@ export const Mail = () => {
                   }`}
                   onClick={() => getItem(option.id, option.checked)}
                 >
-                  {option.value}
+                  <input
+                    type="checkbox"
+                    className="form-check-input"
+                    checked={option.checked}
+                    readOnly
+                  />
+                  {option.name}
                 </li>
               ))}
             </ul>
           </div>
         </div>
+      </div>
+      <div className="text-right" style={{ marginTop: ".5rem" }}>
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={() => changeNotifyHandler(checkedOptions)}
+        >
+          Сохранить
+        </button>
       </div>
     </div>
   );

@@ -6,7 +6,12 @@ import { General } from "../../components/profile/General";
 import { ChangePassword } from "../../components/profile/ChangePassword";
 import { Info } from "../../components/profile/Info";
 import { Notifications } from "../../components/profile/Notifications/Notifications";
-import { changeGeneral, getGeneral } from "../../redux/actions/profileActions";
+import {
+  changeAvatar,
+  changeGeneral,
+  changeNotifications,
+  getGeneral,
+} from "../../redux/actions/profileActions";
 import { hideFullAlert } from "../../redux/actions/actions";
 import { FullAlert } from "../../components/FullAlert";
 
@@ -14,15 +19,28 @@ export const UserProfile = () => {
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.auth.data.userId);
   const alert = useSelector((state) => state.app.fullAlert);
-  const { general, userImg } = useSelector((state) => state.profile);
+  const {
+    general,
+    userImg,
+    notificationsSett,
+    userNotifications,
+  } = useSelector((state) => state.profile);
   const [errors, setErrors] = useState(null);
 
   useEffect(() => {
     dispatch(getGeneral(userId));
   }, [dispatch, userId]);
 
-  const changeGeneralHandler = (img) => {
-    dispatch(changeGeneral(userId, img));
+  const changeAvatarHandler = (img) => {
+    dispatch(changeAvatar(userId, img));
+  };
+
+  const changeGeneralHandler = (phone) => {
+    dispatch(changeGeneral(userId, phone));
+  };
+
+  const changeNotifyHandler = (notifications) => {
+    dispatch(changeNotifications(userId, notifications));
   };
 
   const getErrors = (message) => {
@@ -69,12 +87,17 @@ export const UserProfile = () => {
                   <General
                     data={general}
                     userImg={userImg}
-                    change={changeGeneralHandler}
+                    changeAvatar={changeAvatarHandler}
+                    changeGeneral={changeGeneralHandler}
                     userId={userId}
                   />
                   <ChangePassword getErrors={getErrors} />
                   <Info />
-                  <Notifications />
+                  <Notifications
+                    notifications={notificationsSett}
+                    userNotifications={userNotifications}
+                    changeNotifyHandler={changeNotifyHandler}
+                  />
                 </div>
               </div>
             </div>

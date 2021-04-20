@@ -659,6 +659,9 @@ hr {
                 list-style: none;
               }
               .select-item {
+                input {
+                  margin-right: 0.5rem;
+                }
                 padding: 0.75rem;
                 cursor: pointer;
                 &.checked {
@@ -675,6 +678,9 @@ hr {
 
           .with-errors .alert {
             margin: 1rem 1rem;
+          }
+          .with-errors .alert-whatsapp {
+            margin: 1rem 0 !important;
           }
           .list-group {
             button:focus {

@@ -1,9 +1,13 @@
 import { server } from "../../config/config.json";
 import {
+  CHANGE_AVATAR,
   CHANGE_GENERAL_SETTINGS,
+  CHANGE_NOTIFICATIONS,
   CHANGE_PASSWORD,
   GET_GENERAL_SETTINGS,
+  GET_NOTIFICATIONS_SETTINGS,
   GET_USER_IMG,
+  GET_USER_NOTIFICATIONS,
 } from "../types";
 import {
   hideFullAlert,
@@ -26,8 +30,10 @@ export function getGeneral(userId) {
         }),
       });
       const json = await query.json();
-      dispatch({ type: GET_GENERAL_SETTINGS, payload: json });
+      dispatch({ type: GET_GENERAL_SETTINGS, payload: json[0] });
       dispatch({ type: GET_USER_IMG, payload: json[1] });
+      dispatch({ type: GET_USER_NOTIFICATIONS, payload: json[2] });
+      dispatch({ type: GET_NOTIFICATIONS_SETTINGS, payload: json[3] });
       dispatch(hideLoader());
     } catch (e) {
       console.log(e.message);
@@ -35,12 +41,12 @@ export function getGeneral(userId) {
   };
 }
 
-export function changeGeneral(userId, img) {
+export function changeAvatar(userId, img) {
   return async (dispatch) => {
     try {
       dispatch(showLoader());
       const query = await fetch(
-        `${server}/api/profile/change-general-settings/${userId}`,
+        `${server}/api/profile/change-avatar/${userId}`,
         {
           method: "PUT",
           headers: {
@@ -52,7 +58,34 @@ export function changeGeneral(userId, img) {
         }
       );
       const json = await query.json();
+      dispatch({ type: CHANGE_AVATAR, payload: json });
+      dispatch(hideLoader());
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+}
+
+export function changeGeneral(userId, phone) {
+  return async (dispatch) => {
+    try {
+      dispatch(showLoader());
+      dispatch(hideFullAlert());
+      const query = await fetch(
+        `${server}/api/profile/change-general-settings/${userId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json;charset=utf-8",
+          },
+          body: JSON.stringify({
+            phone,
+          }),
+        }
+      );
+      const json = await query.json();
       dispatch({ type: CHANGE_GENERAL_SETTINGS, payload: json });
+      dispatch(showFullAlert(json));
       dispatch(hideLoader());
     } catch (e) {
       console.log(e.message);
@@ -79,6 +112,33 @@ export function changePassword(userId, newPass) {
       );
       const json = await query.json();
       dispatch({ type: CHANGE_PASSWORD, payload: json });
+      dispatch(showFullAlert(json));
+      dispatch(hideLoader());
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+}
+
+export function changeNotifications(userId, notifications) {
+  return async (dispatch) => {
+    try {
+      dispatch(showLoader());
+      dispatch(hideFullAlert());
+      const query = await fetch(
+        `${server}/api/profile/change-notifications/${userId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json;charset=utf-8",
+          },
+          body: JSON.stringify({
+            notifications,
+          }),
+        }
+      );
+      const json = await query.json();
+      dispatch({ type: CHANGE_NOTIFICATIONS, payload: json });
       dispatch(showFullAlert(json));
       dispatch(hideLoader());
     } catch (e) {
