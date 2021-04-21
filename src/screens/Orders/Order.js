@@ -59,6 +59,19 @@ export const Order = () => {
     );
   }
 
+  if (order.length < 1) {
+    return (
+      <div className="layout-container">
+        <Navbar />
+        <div className="layout-content">
+          <div className="order-list-section container-fluid flex-grow-1 container-p-y">
+            <h4 className="font-weight-bold mb-4">Заявка не найдена</h4>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="layout-container">
       <Navbar />
