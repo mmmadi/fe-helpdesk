@@ -6,6 +6,24 @@ body {
   background: #f5f5f5;
 }
 
+.sidebar_menu {
+  padding: 0.25rem 0.75rem;
+  font-size: 1.25rem;
+  line-height: 1;
+  background-color: transparent;
+  border-radius: 0.25rem;
+  color: rgba(0, 0, 0, 0.55);
+  border-color: rgba(0, 0, 0, 0.1);
+  -webkit-transition: -webkit-box-shadow 0.15s ease-in-out;
+  transition: -webkit-box-shadow 0.15s ease-in-out;
+  transition: box-shadow 0.15s ease-in-out;
+  transition: box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+}
+
+.sidebar_menu:focus {
+  outline: none;
+}
+
 .spec {
   padding-top: 0.7rem;
 }
@@ -1091,6 +1109,20 @@ hr {
   .login-form {
     width: 90%;
   }
+  .datepicker-control {
+    display: block;
+  }
+  .layout-expanded .layout-sidenav {
+    -webkit-transform: translateZ(0) !important;
+    transform: translateZ(0) !important;
+  }
+  .layout-sidenav {
+    z-index: 1100;
+  }
+  .sidenav-vertical {
+    -webkit-transition: 0.2s;
+    transition: 0.2s;
+  }
   .layout-sidenav {
     position: fixed !important;
     top: 0 !important;
@@ -1102,8 +1134,19 @@ hr {
     transform: translate3d(-100%, 0, 0);
     will-change: transform, -webkit-transform;
   }
-  .datepicker-control {
-    display: block;
+  .layout-overlay {
+    z-index: 1099;
+  }
+  .layout-overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100% !important;
+    left: 0;
+    display: none;
+    background: #181c21;
+    opacity: 0.5;
+    cursor: pointer;
   }
 }
 

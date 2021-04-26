@@ -5,6 +5,7 @@ import { useRoutes } from "./routes";
 import { checkAuth } from "./redux/actions/actions";
 import { Sidenav } from "./components/Sidenav";
 import { FullscreenLoader } from "./components/FullscreenLoader";
+import { Overlay } from "./components/Overlay";
 
 function App() {
   const dispatch = useDispatch();
@@ -41,6 +42,7 @@ function App() {
             routes
           )}
         </div>
+        <Overlay />
       </div>
     </Router>
   );

@@ -13,6 +13,18 @@ export const Navbar = () => {
 
   const { fio, userImg, userId } = useSelector((state) => state.auth.data);
 
+  const sidenavToggler = () => {
+    const html = document.querySelector("html");
+    const overlay = document.querySelector(".layout-overlay");
+    html.classList.toggle("layout-expanded");
+
+    if (overlay.style.display === "none") {
+      overlay.style.display = "block";
+    } else {
+      overlay.style.display = "none";
+    }
+  };
+
   const logoutHandler = () => {
     dispatch(logout());
     history.push("/");
@@ -24,6 +36,13 @@ export const Navbar = () => {
       style={{ boxShadow: "0 10px 30px 0 rgb(24 28 33 / 6%)" }}
     >
       <div className="container-fluid">
+        <button
+          className="sidebar_menu navbar-toggler"
+          type="button"
+          onClick={sidenavToggler}
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
         <button
           className="navbar-toggler"
           type="button"

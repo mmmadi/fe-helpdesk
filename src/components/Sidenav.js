@@ -18,11 +18,16 @@ export const Sidenav = () => {
   }, [dispatch, userId]);
 
   const activeHandle = (index) => {
+    const html = document.querySelector("html");
+    const overlay = document.querySelector(".layout-overlay");
+
+    html.classList.remove("layout-expanded");
+    if (overlay.style.display === "block") overlay.style.display = "none";
     setActiveIndex(index);
   };
 
   return (
-    <div className="layout-sidenav">
+    <div className="layout-sidenav sidenav-vertical">
       <div className="app-brand">
         <span>
           <img src={Logo} alt="logo" width={40} />
