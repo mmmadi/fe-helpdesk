@@ -155,14 +155,13 @@ export const Telegram = ({
           value={id}
         />
       </div>
-      <div className="alert alert-primary alert-whatsapp fade show">
+      {/* <div className="alert alert-primary alert-whatsapp fade show">
         В данный момент этот вид уведомлений отключён в системе.
-      </div>
+      </div> */}
       <div className="text-right" style={{ marginTop: ".5rem" }}>
         <button
           type="button"
           className="btn btn-primary"
-          disabled
           onClick={() => changeTelegramNotifyHandler(checkedWOptions, id)}
         >
           Сохранить
