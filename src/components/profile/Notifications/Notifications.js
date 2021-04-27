@@ -1,10 +1,13 @@
 import { Mail } from "./Mail";
-import { WhatsApp } from "./WhatsApp";
+import { Telegram } from "./Telegram";
 
 export const Notifications = ({
+  teleId,
   notifications,
   userNotifications,
+  userTelegram,
   changeNotifyHandler,
+  changeTelegramNotifyHandler,
 }) => {
   return (
     <div
@@ -19,7 +22,12 @@ export const Notifications = ({
         changeNotifyHandler={changeNotifyHandler}
       />
       <hr />
-      <WhatsApp />
+      <Telegram
+        teleId={teleId}
+        notifications={notifications}
+        userTelegram={userTelegram}
+        changeTelegramNotifyHandler={changeTelegramNotifyHandler}
+      />
     </div>
   );
 };

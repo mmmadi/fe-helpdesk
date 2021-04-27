@@ -11,6 +11,7 @@ import {
   changeGeneral,
   changeNotifications,
   getGeneral,
+  changeTelegramNotifications,
 } from "../../redux/actions/profileActions";
 import { hideFullAlert } from "../../redux/actions/actions";
 import { FullAlert } from "../../components/FullAlert";
@@ -24,6 +25,7 @@ export const UserProfile = () => {
     userImg,
     notificationsSett,
     userNotifications,
+    userTelegram,
   } = useSelector((state) => state.profile);
   const [errors, setErrors] = useState(null);
 
@@ -41,6 +43,10 @@ export const UserProfile = () => {
 
   const changeNotifyHandler = (notifications) => {
     dispatch(changeNotifications(userId, notifications));
+  };
+
+  const changeTelegramNotifyHandler = (notifications, id) => {
+    dispatch(changeTelegramNotifications(userId, notifications, id));
   };
 
   const getErrors = (message) => {
@@ -94,9 +100,12 @@ export const UserProfile = () => {
                   <ChangePassword getErrors={getErrors} />
                   <Info />
                   <Notifications
+                    teleId={general ? general[0].telegram_id : null}
                     notifications={notificationsSett}
                     userNotifications={userNotifications}
+                    userTelegram={userTelegram}
                     changeNotifyHandler={changeNotifyHandler}
+                    changeTelegramNotifyHandler={changeTelegramNotifyHandler}
                   />
                 </div>
               </div>

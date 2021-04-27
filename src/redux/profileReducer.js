@@ -7,6 +7,7 @@ import {
   GET_NOTIFICATIONS_SETTINGS,
   GET_USER_IMG,
   GET_USER_NOTIFICATIONS,
+  GET_USER_TELEGRAM,
 } from "./types";
 
 const initialState = {
@@ -15,6 +16,7 @@ const initialState = {
   changePass: null,
   notificationsSett: [],
   userNotifications: [],
+  userTelegram: [],
   changeNotify: null,
   changeGeneral: null,
 };
@@ -60,6 +62,11 @@ export const profileReducer = (state = initialState, action) => {
       return {
         ...state,
         userNotifications: action.payload,
+      };
+    case GET_USER_TELEGRAM:
+      return {
+        ...state,
+        userTelegram: action.payload,
       };
     default:
       return state;

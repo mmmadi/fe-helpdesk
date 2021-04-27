@@ -1,12 +1,39 @@
 import { useEffect, useRef, useState } from "react";
 
-export const WhatsApp = () => {
+export const Telegram = ({
+  teleId,
+  notifications,
+  userTelegram,
+  changeTelegramNotifyHandler,
+}) => {
   const [wOptions, setWOptions] = useState([]);
-
+  const [id, setId] = useState("");
   const [checkedWOptions, setCheckedWOptions] = useState([]);
 
   const ref = useRef(null);
   useOutsideAlerter(ref);
+
+  useEffect(() => {
+    setId(teleId ? teleId : "");
+  }, [teleId]);
+
+  useEffect(() => {
+    setCheckedWOptions(userTelegram);
+
+    const newOptions = [];
+
+    notifications.map((x) => {
+      const param = userTelegram.find((s) => s.id === x.id);
+
+      if (param) {
+        return newOptions.push({ ...x, checked: param.checked });
+      } else {
+        return newOptions.push({ ...x, checked: false });
+      }
+    });
+
+    setWOptions(newOptions);
+  }, [notifications, userTelegram]);
 
   const toggle = () => {
     const select = document.querySelector(".w-checkbox-select");
@@ -77,9 +104,9 @@ export const WhatsApp = () => {
 
   return (
     <div className="card-body pb-2">
-      <h5 style={{ paddingBottom: "1rem" }}>WhatsApp-уведомления</h5>
+      <h5 style={{ paddingBottom: "1rem" }}>Telegram-уведомления</h5>
       <div className="form-group aasd">
-        <label className="form-label">WhatsApp-уведомления</label>
+        <label className="form-label">Telegram-уведомления</label>
         <div className="w-checkbox-select" ref={ref}>
           <div className="select-input form-control" onClick={toggle}>
             <ul className="checked-inline-options">
@@ -91,7 +118,7 @@ export const WhatsApp = () => {
                   >
                     ×
                   </span>
-                  {option.value}
+                  {option.name}
                 </li>
               ))}
             </ul>
@@ -106,18 +133,38 @@ export const WhatsApp = () => {
                   }`}
                   onClick={() => getItem(option.id, option.checked)}
                 >
-                  {option.value}
+                  <input
+                    type="checkbox"
+                    className="form-check-input"
+                    checked={option.checked}
+                    readOnly
+                  />
+                  {option.name}
                 </li>
               ))}
             </ul>
           </div>
         </div>
       </div>
+      <div className="form-group mt-1">
+        <label className="form-label">Telegram UserID</label>
+        <input
+          type="number"
+          className="form-control"
+          onChange={(e) => setId(e.target.value)}
+          value={id}
+        />
+      </div>
       <div className="alert alert-primary alert-whatsapp fade show">
         В данный момент этот вид уведомлений отключён в системе.
       </div>
       <div className="text-right" style={{ marginTop: ".5rem" }}>
-        <button type="button" className="btn btn-primary" disabled>
+        <button
+          type="button"
+          className="btn btn-primary"
+          disabled
+          onClick={() => changeTelegramNotifyHandler(checkedWOptions, id)}
+        >
           Сохранить
         </button>
       </div>

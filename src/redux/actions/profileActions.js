@@ -8,6 +8,7 @@ import {
   GET_NOTIFICATIONS_SETTINGS,
   GET_USER_IMG,
   GET_USER_NOTIFICATIONS,
+  GET_USER_TELEGRAM,
 } from "../types";
 import {
   hideFullAlert,
@@ -34,6 +35,7 @@ export function getGeneral(userId) {
       dispatch({ type: GET_USER_IMG, payload: json[1] });
       dispatch({ type: GET_USER_NOTIFICATIONS, payload: json[2] });
       dispatch({ type: GET_NOTIFICATIONS_SETTINGS, payload: json[3] });
+      dispatch({ type: GET_USER_TELEGRAM, payload: json[4] });
       dispatch(hideLoader());
     } catch (e) {
       console.log(e.message);
@@ -134,6 +136,34 @@ export function changeNotifications(userId, notifications) {
           },
           body: JSON.stringify({
             notifications,
+          }),
+        }
+      );
+      const json = await query.json();
+      dispatch({ type: CHANGE_NOTIFICATIONS, payload: json });
+      dispatch(showFullAlert(json));
+      dispatch(hideLoader());
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+}
+
+export function changeTelegramNotifications(userId, notifications, id) {
+  return async (dispatch) => {
+    try {
+      dispatch(showLoader());
+      dispatch(hideFullAlert());
+      const query = await fetch(
+        `${server}/api/profile/change-telegram-notifications/${userId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json;charset=utf-8",
+          },
+          body: JSON.stringify({
+            notifications,
+            telegram_id: id,
           }),
         }
       );
