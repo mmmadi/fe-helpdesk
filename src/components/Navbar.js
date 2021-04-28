@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCog, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import { faCog, faSignOutAlt, faBars } from "@fortawesome/free-solid-svg-icons";
 import { Link, useHistory } from "react-router-dom";
 import { logout } from "../redux/actions/actions";
 import DefUser from "../images/def-user.png";
@@ -25,6 +25,11 @@ export const Navbar = () => {
     }
   };
 
+  const zoomSideBar = () => {
+    const html = document.querySelector("html");
+    html.classList.toggle("layout-collapsed");
+  };
+
   const logoutHandler = () => {
     dispatch(logout());
     history.push("/");
@@ -36,6 +41,13 @@ export const Navbar = () => {
       style={{ boxShadow: "0 10px 30px 0 rgb(24 28 33 / 6%)" }}
     >
       <div className="container-fluid">
+        <button
+          className="sidebar_menu toggle_menu"
+          type="button"
+          onClick={zoomSideBar}
+        >
+          <FontAwesomeIcon icon={faBars} />
+        </button>
         <button
           className="sidebar_menu navbar-toggler"
           type="button"

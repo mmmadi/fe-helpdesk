@@ -28,48 +28,22 @@ export const DataTable = ({ orders, param }) => {
         return (
           <tr key={el.id}>
             <th scope="row">
-              <center>
-                <Link to={`/orders/${el.id}`}>Заявка № {el.id}</Link>
-              </center>
+              <Link to={`/orders/${el.id}`}>Заявка № {el.id}</Link>
             </th>
             <td>
               <center>
                 <PriorityStyle priority={el.priority} />
               </center>
             </td>
-            <td>
-              <center>{el.subject}</center>
-            </td>
-            {!have_task && (
-              <td>
-                <center>{el.task}</center>
-              </td>
-            )}
-            {have_task
-              ? param === 2 && (
-                  <td>
-                    <center>{el.task}</center>
-                  </td>
-                )
-              : null}
-            <td>
-              <center>{el.spec}</center>
-            </td>
-            <td>
-              <center>{el.sub_spec}</center>
-            </td>
-            <td>
-              <center>{el.author}</center>
-            </td>
-            <td>
-              <center>{el.date_ins}</center>
-            </td>
-            <td>
-              <center>{el.owner}</center>
-            </td>
-            <td>
-              <center>{el.executor}</center>
-            </td>
+            <td>{el.subject}</td>
+            {!have_task && <td>{el.task}</td>}
+            {have_task ? param === 2 && <td>{el.task}</td> : null}
+            <td>{el.spec}</td>
+            <td>{el.sub_spec}</td>
+            <td>{el.author}</td>
+            <td>{el.date_ins}</td>
+            <td>{el.owner}</td>
+            <td>{el.executor}</td>
             <td>
               <center>
                 <StatusStyle status={el.status} />

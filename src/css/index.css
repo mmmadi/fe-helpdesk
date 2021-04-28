@@ -4,6 +4,7 @@ body {
   margin: 0;
   font-family: "Roboto", sans-serif;
   background: #f5f5f5;
+  font-size: 0.894rem;
 }
 
 .sidebar_menu {
@@ -22,6 +23,28 @@ body {
 
 .sidebar_menu:focus {
   outline: none;
+}
+
+.toggle_menu {
+  color: #000;
+  background-color: transparent;
+  border: none;
+}
+
+.toggle_menu:hover {
+  color: #9d9fa1;
+}
+
+.ps {
+  position: relative;
+}
+
+.sidenav-vertical {
+  width: 15.625rem;
+}
+
+.dropdown-menu {
+  font-size: 0.894rem;
 }
 
 .spec {
@@ -219,6 +242,27 @@ hr {
 
 .modal .modal-body {
   font-size: 1rem;
+}
+
+.table > thead {
+  vertical-align: middle;
+}
+
+.form-select,
+.form-control {
+  font-size: 0.894rem;
+}
+
+h5 {
+  font-size: 1.2rem;
+}
+
+h4 {
+  font-size: 1.4rem;
+}
+
+.btn {
+  font-size: 0.894rem;
 }
 
 .btn-warning {
@@ -490,10 +534,19 @@ hr {
 }
 
 .layout-wrapper .layout-inner .layout-sidenav .app-brand {
-  padding-right: 1.75rem;
-  padding-left: 1.75rem;
+  padding-right: 1.4rem;
+  padding-left: 1.4rem;
   padding-top: 1rem;
   height: 66px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
 }
 
 .layout-wrapper .layout-inner .layout-sidenav .app-brand span {
@@ -510,7 +563,7 @@ hr {
 
 .layout-wrapper .layout-inner .layout-sidenav .app-brand span a {
   text-decoration: none;
-  font-size: 24px;
+  font-size: 22px;
   color: #fff;
 }
 
@@ -539,9 +592,9 @@ hr {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: start;
-      -ms-flex-pack: start;
-          justify-content: flex-start;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
@@ -556,6 +609,18 @@ hr {
           transition-duration: 0.2s;
   -webkit-transition-property: color, background-color;
   transition-property: color, background-color;
+}
+
+.layout-wrapper .layout-inner .layout-sidenav .sidenav-content .sidenav-item .sidenav-link span {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
 }
 
 .layout-wrapper .layout-inner .layout-sidenav .sidenav-content .sidenav-item .sidenav-link svg {
@@ -651,6 +716,10 @@ hr {
 
 .layout-wrapper .layout-inner .layout-container .layout-navbar {
   min-height: 66px;
+}
+
+.layout-wrapper .layout-inner .layout-container .layout-content {
+  width: 100%;
 }
 
 .layout-wrapper .layout-inner .layout-container .layout-content .desc-editor {
@@ -762,7 +831,7 @@ hr {
 }
 
 .layout-wrapper .layout-inner .layout-container .layout-content .order-table-section .table th {
-  font-size: 14px;
+  font-size: 0.894rem;
 }
 
 .layout-wrapper .layout-inner .layout-container .layout-content .order-section .media {
@@ -1148,12 +1217,85 @@ hr {
     opacity: 0.5;
     cursor: pointer;
   }
+  .toggle_menu {
+    display: none;
+  }
 }
 
 @media (min-width: 992px) {
   .container-fluid {
     padding-right: 2rem;
     padding-left: 2rem;
+  }
+  .layout-collapsed .layout-sidenav .app-brand {
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+    width: 4.375rem;
+  }
+  .layout-collapsed .layout-sidenav .app-brand span {
+    margin-right: auto;
+    margin-left: auto;
+  }
+  .layout-collapsed .layout-sidenav .app-brand span .logo_title {
+    display: none;
+  }
+  .layout-collapsed .layout-sidenav .app-brand .toggle_menu {
+    display: block;
+  }
+  .layout-collapsed .layout-sidenav.sidenav-vertical {
+    width: 4.375rem;
+  }
+  .layout-collapsed .layout-sidenav.sidenav-vertical .sidenav-content > .sidenav-item {
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+    width: 100%;
+  }
+  .layout-collapsed .layout-sidenav.sidenav-vertical .sidenav-content > .sidenav-item > .sidenav-link {
+    padding: 0.75rem 1.6rem;
+  }
+  .layout-collapsed .layout-sidenav.sidenav-vertical .sidenav-content > .sidenav-item > .sidenav-link .sidetitle {
+    display: none;
+  }
+  .layout-collapsed .layout-sidenav.sidenav-vertical .sidenav-content > .sidenav-item > .sidenav-link .side_badge {
+    display: none;
+  }
+  .layout-collapsed .layout-2 .layout-sidenav {
+    z-index: 1085 !important;
+  }
+  .layout-collapse .layout-container {
+    width: calc(100% - 4.375rem) !important;
+    left: 4.375rem !important;
+  }
+}
+
+@media (max-width: 1601px) {
+  body,
+  .btn,
+  .form-select,
+  .form-control {
+    font-size: 0.7rem !important;
+  }
+  h5 {
+    font-size: 1rem;
+  }
+  h4 {
+    font-size: 1.2rem;
+  }
+  .layout-wrapper .layout-inner .layout-sidenav .app-brand span a {
+    font-size: 20px;
+  }
+  .layout-wrapper
+.layout-inner
+.layout-container
+.layout-content
+.order-table-section
+.table
+th {
+    font-size: 0.7rem;
+  }
+  .dropdown-menu {
+    font-size: 0.7rem;
+    min-width: 8rem;
   }
 }
 /*# sourceMappingURL=index.css.map */

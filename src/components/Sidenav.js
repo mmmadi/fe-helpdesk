@@ -31,16 +31,18 @@ export const Sidenav = () => {
       <div className="app-brand">
         <span>
           <img src={Logo} alt="logo" width={40} />
-          <Link to="/">PETROLEUM</Link>
+          <span className="logo_title">
+            <Link to="/">PETROLEUM</Link>
+          </span>
         </span>
       </div>
       <div className="sidenav-divider"></div>
-      <ul className="sidenav-content">
+      <ul className="sidenav-content py-1 ps">
         {elementList.map((el) => {
           return (
             <li
-              className={`sidenav-item ${
-                activeIndex === el.id ? "active" : ""
+              className={`sidenav-item${
+                activeIndex === el.id ? " active" : ""
               }`}
               key={el.id}
             >
@@ -49,9 +51,13 @@ export const Sidenav = () => {
                 className="sidenav-link"
                 onClick={() => activeHandle(el.id)}
               >
-                <FontAwesomeIcon icon={el.icon} />
-                {el.text}
-                {el.badge ? <Badge count={count} /> : null}
+                <span>
+                  <FontAwesomeIcon icon={el.icon} />
+                  <span className="sidetitle">{el.text}</span>
+                </span>
+                <span className="side_badge">
+                  {el.badge ? <Badge count={count} /> : null}
+                </span>
               </Link>
             </li>
           );

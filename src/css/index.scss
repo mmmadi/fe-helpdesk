@@ -9,6 +9,7 @@ body {
   margin: 0;
   font-family: "Roboto", sans-serif;
   background: #f5f5f5;
+  font-size: 0.894rem;
 }
 
 $click: #1e70cd;
@@ -26,6 +27,23 @@ $click: #1e70cd;
 }
 .sidebar_menu:focus {
   outline: none;
+}
+.toggle_menu {
+  color: #000;
+  background-color: transparent;
+  border: none;
+}
+.toggle_menu:hover {
+  color: #9d9fa1;
+}
+.ps {
+  position: relative;
+}
+.sidenav-vertical {
+  width: 15.625rem;
+}
+.dropdown-menu {
+  font-size: 0.894rem;
 }
 .spec {
   padding-top: 0.7rem;
@@ -174,8 +192,25 @@ hr {
     font-size: 1rem;
   }
 }
+.table > thead {
+  vertical-align: middle;
+}
+
+.form-select,
+.form-control {
+  font-size: 0.894rem;
+}
+h5 {
+  font-size: 1.2rem;
+}
+h4 {
+  font-size: 1.4rem;
+}
 
 //btns
+.btn {
+  font-size: 0.894rem;
+}
 .btn-warning {
   color: #000;
   background-color: #ffd950;
@@ -296,7 +331,6 @@ hr {
     }
   }
 }
-
 .pull-right {
   float: right;
 }
@@ -387,12 +421,16 @@ hr {
       color: #9d9fa1;
       height: 100%;
       flex: 1 0 auto;
+      // transition: 0.5s;
 
       .app-brand {
-        padding-right: 1.75rem;
-        padding-left: 1.75rem;
+        padding-right: 1.4rem;
+        padding-left: 1.4rem;
         padding-top: 1rem;
         height: 66px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
 
         span {
           display: flex;
@@ -400,7 +438,7 @@ hr {
           align-items: center;
           a {
             text-decoration: none;
-            font-size: 24px;
+            font-size: 22px;
             color: #fff;
           }
         }
@@ -418,7 +456,7 @@ hr {
           .sidenav-link {
             position: relative;
             display: flex;
-            justify-content: flex-start;
+            justify-content: space-between;
             align-items: center;
             padding: 0.75rem 2rem;
             color: #9d9fa1;
@@ -429,6 +467,12 @@ hr {
             cursor: pointer;
             transition-duration: 0.2s;
             transition-property: color, background-color;
+
+            span {
+              display: flex;
+              align-items: center;
+              justify-content: flex-start;
+            }
 
             svg {
               margin-right: 0.5rem;
@@ -498,6 +542,7 @@ hr {
       min-width: 0;
       max-width: 100%;
       flex-direction: column;
+      // transition: 0.5s;
 
       .layout-navbar {
         min-height: 66px;
@@ -505,6 +550,7 @@ hr {
 
       //create order - Screens/Orders/CreateOrder.js
       .layout-content {
+        width: 100%;
         .desc-editor {
           border: 1px solid #ccc;
           textarea {
@@ -583,7 +629,7 @@ hr {
           }
           .table {
             th {
-              font-size: 14px;
+              font-size: 0.894rem;
             }
           }
         }
@@ -915,11 +961,87 @@ hr {
     opacity: 0.5;
     cursor: pointer;
   }
+  .toggle_menu {
+    display: none;
+  }
 }
 
 @media (min-width: 992px) {
   .container-fluid {
     padding-right: 2rem;
     padding-left: 2rem;
+  }
+  .layout-collapsed .layout-sidenav {
+    .app-brand {
+      padding-right: 0 !important;
+      padding-left: 0 !important;
+      width: 4.375rem;
+      span {
+        margin-right: auto;
+        margin-left: auto;
+        .logo_title {
+          display: none;
+        }
+      }
+      .toggle_menu {
+        display: block;
+      }
+    }
+  }
+  .layout-collapsed .layout-sidenav.sidenav-vertical {
+    width: 4.375rem;
+
+    .sidenav-content > .sidenav-item {
+      padding-right: 0 !important;
+      padding-left: 0 !important;
+      width: 100%;
+    }
+    .sidenav-content > .sidenav-item > .sidenav-link {
+      padding: 0.75rem 1.6rem;
+      .sidetitle {
+        display: none;
+      }
+      .side_badge {
+        display: none;
+      }
+    }
+  }
+  .layout-collapsed .layout-2 .layout-sidenav {
+    z-index: 1085 !important;
+  }
+  .layout-collapse .layout-container {
+    width: calc(100% - 4.375rem) !important;
+    left: 4.375rem !important;
+  }
+}
+
+@media (max-width: 1601px) {
+  body,
+  .btn,
+  .form-select,
+  .form-control {
+    font-size: 0.7rem !important;
+  }
+  h5 {
+    font-size: 1rem;
+  }
+  h4 {
+    font-size: 1.2rem;
+  }
+  .layout-wrapper .layout-inner .layout-sidenav .app-brand span a {
+    font-size: 20px;
+  }
+  .layout-wrapper
+    .layout-inner
+    .layout-container
+    .layout-content
+    .order-table-section
+    .table
+    th {
+    font-size: 0.7rem;
+  }
+  .dropdown-menu {
+    font-size: 0.7rem;
+    min-width: 8rem;
   }
 }
