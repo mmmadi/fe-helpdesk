@@ -2,6 +2,7 @@
 export const LOGIN = "AUTH/LOGIN";
 export const LOGOUT = "AUTH/LOGOUT";
 export const ERROR = "AUTH/ERROR";
+export const GET_USERS = "AUTH/GET_USERS";
 //// APP
 export const SHOW_LOADER = "APP/SHOW_LOADER";
 export const HIDE_LOADER = "APP/HIDE_LOADER";
@@ -25,6 +26,8 @@ export const DONE_ORDER = "ORDER/DONE_ORDER";
 export const ADD_COMMENT = "ORDER/ADD_COMMENT";
 export const GET_COMMENT = "ORDER/GET_COMMENT";
 export const DELETE_ORDER = "ORDER/DELETE_ORDER";
+export const GET_ORDER_PARTY = "ORDER/GET_ORDER_PARTY";
+export const ADD_ORDER_PARTY = "ORDER/ADD_ORDER_PARTY";
 //// ORDER_FILTER
 export const GET_F_SPEC = "ORDER_FILTER/GET_F_SPEC";
 export const GET_F_SUB_SPEC = "ORDER_FILTER/GET_F_SUB_SPEC";

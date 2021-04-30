@@ -7,6 +7,7 @@ import {
   takeInWork,
   doneOrder,
   cancelOrder,
+  getOrderParty,
 } from "../../redux/actions/orderActions";
 import { hideFullAlert } from "../../redux/actions/actions";
 import { ActionBtns } from "../../components/order/ActionBtns";
@@ -14,6 +15,8 @@ import { OrderBody } from "../../components/order/OrderBody";
 import { OrderHead } from "../../components/order/OrderHead";
 import { LockAlertChange } from "../../components/order/LockAlertChange";
 import { OrderComment } from "../../components/order/OrderComment";
+import { OrderCreator } from "../../components/order/OrderCreator";
+import { OrderParty } from "../../components/order/OrderParty";
 
 export const Order = () => {
   const dispatch = useDispatch();
@@ -25,9 +28,11 @@ export const Order = () => {
   const cancelData = useSelector((state) => state.order.cancel);
   const doneData = useSelector((state) => state.order.done);
   const deleteData = useSelector((state) => state.order.delete);
+  const orderPartyData = useSelector((state) => state.order.orderParty);
 
   useEffect(() => {
     dispatch(getOrder(orderId));
+    dispatch(getOrderParty(orderId));
   }, [dispatch, orderId]);
 
   const cancelOrderHandlder = (param) => {
@@ -44,6 +49,49 @@ export const Order = () => {
 
   const closeAlert = () => {
     dispatch(hideFullAlert());
+  };
+
+  const getCreate = (param) => {
+    if (param === 1) {
+      if (order[0].creator) {
+        return order[0].creator;
+      } else if (order[0].client) {
+        return null;
+      } else {
+        return order[0].id_user_ins;
+      }
+    }
+    if (param === 2) {
+      if (order[0].creator) {
+        if (order[0].creator_img) {
+          return order[0].creator_img;
+        } else {
+          return null;
+        }
+      } else if (order[0].client) {
+        return null;
+      } else {
+        return order[0].image;
+      }
+    }
+    if (param === 3) {
+      if (order[0].creator_fio) {
+        return order[0].creator_fio;
+      } else if (order[0].client) {
+        return order[0].client;
+      } else {
+        return order[0].author;
+      }
+    }
+    if (param === 4) {
+      if (order[0].creator_struct) {
+        return order[0].creator_struct;
+      } else if (order[0].client) {
+        return null;
+      } else {
+        return order[0].author_struct;
+      }
+    }
   };
 
   if (!order) {
@@ -111,9 +159,20 @@ export const Order = () => {
                   doneData={doneData}
                 />
               )}
+              <OrderComment />
             </div>
             <div className="col-sm-4">
-              <OrderComment />
+              <OrderCreator
+                id={getCreate(1)}
+                img={getCreate(2)}
+                fio={getCreate(3)}
+                struct={getCreate(4)}
+              />
+              <OrderParty
+                orderPartyData={orderPartyData}
+                orderId={orderId}
+                have_task={have_task}
+              />
             </div>
           </div>
         </div>

@@ -41,6 +41,7 @@ export const OrderBody = ({
               </div>
               <div className="media-body ml-3">
                 <h5 className="mb-1">{order[0].author}</h5>
+                <div className="small">{order[0].author_struct}</div>
               </div>
             </div>
           </div>

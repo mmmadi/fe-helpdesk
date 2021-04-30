@@ -8,6 +8,7 @@ import {
   SHOW_FULL_ALERT,
   HIDE_FULL_ALERT,
   GET_DASHBOARD_DATA,
+  GET_USERS,
 } from "../types";
 import { server } from "../../config/config.json";
 
@@ -41,6 +42,23 @@ export function login(form) {
       if (json.error) {
         dispatch(showAlert(json.message));
       }
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+}
+
+export function getUsers() {
+  return async (dispatch) => {
+    try {
+      const response = await fetch(`${server}/api/get-users`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json;charset=utf-8",
+        },
+      });
+      const json = await response.json();
+      dispatch({ type: GET_USERS, payload: json });
     } catch (e) {
       console.log(e.message);
     }

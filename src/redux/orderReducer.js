@@ -1,5 +1,6 @@
 import {
   ADD_COMMENT,
+  ADD_ORDER_PARTY,
   CANCEL_ORDER,
   CREATE_ORDER,
   DELETE_ORDER,
@@ -8,6 +9,7 @@ import {
   GET_COUNT,
   GET_ORDER,
   GET_ORDERS,
+  GET_ORDER_PARTY,
   GET_SPEC,
   GET_SUB_SPEC,
   GET_TASKS,
@@ -30,6 +32,7 @@ const initialState = {
   comment: null,
   addedComment: null,
   delete: null,
+  orderParty: null,
 };
 
 export const orderReducer = (state = initialState, action) => {
@@ -103,6 +106,16 @@ export const orderReducer = (state = initialState, action) => {
       return {
         ...state,
         delete: action.payload,
+      };
+    case GET_ORDER_PARTY:
+      return {
+        ...state,
+        orderParty: action.payload,
+      };
+    case ADD_ORDER_PARTY:
+      return {
+        ...state,
+        orderParty: action.payload,
       };
     default:
       return state;

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTag } from "@fortawesome/free-solid-svg-icons";
@@ -8,13 +8,15 @@ import {
   getSpec,
   getSubSpec,
 } from "../../redux/actions/orderActions";
-import { hideFullAlert } from "../../redux/actions/actions";
+import { getUsers, hideFullAlert } from "../../redux/actions/actions";
 import { Loader } from "../../components/Loader";
 import { FullAlert } from "../../components/FullAlert";
 import { Navbar } from "../../components/Navbar";
 
 export const CreateOrder = () => {
-  const userId = useSelector((state) => state.auth.data.userId);
+  const { userId, have_task } = useSelector((state) => state.auth.data);
+  const ref = useRef(null);
+  useOutsideAlerter(ref);
   const [form, setForm] = useState({
     task: null,
     spec: "",
@@ -24,6 +26,11 @@ export const CreateOrder = () => {
     description: null,
     userId: userId,
   });
+  const [client, setClient] = useState({
+    id: null,
+    value: "",
+  });
+  const [searchedUsers, setSearchedUsers] = useState([]);
   const [errors, setErrors] = useState(null);
   const [files, setFiles] = useState([]);
   const dispatch = useDispatch();
@@ -32,10 +39,16 @@ export const CreateOrder = () => {
   const tasks = useSelector((state) => state.order.tasks);
   const spec = useSelector((state) => state.order.spec);
   const sub_spec = useSelector((state) => state.order.sub_spec);
+  const users = useSelector((state) => state.auth.users);
 
   useEffect(() => {
     dispatch(getTasks());
+    dispatch(getUsers());
   }, [dispatch]);
+
+  useEffect(() => {
+    setSearchedUsers(users);
+  }, [users]);
 
   const openFileUpload = () => {
     const fileUpload = document.querySelector("#fileUpload");
@@ -135,7 +148,7 @@ export const CreateOrder = () => {
       setErrors(error);
     } else {
       setErrors(null);
-      dispatch(createOrder(form, files));
+      dispatch(createOrder(form, files, client));
       clearForm();
     }
   };
@@ -189,6 +202,10 @@ export const CreateOrder = () => {
       userId: userId,
     });
     setFiles([]);
+    setClient({
+      id: null,
+      value: "",
+    });
   };
 
   const closeAlert = () => {
@@ -219,6 +236,47 @@ export const CreateOrder = () => {
 
     dispatch(getSubSpec(event.target.value));
   };
+
+  const creatorHandler = (e) => {
+    setClient({ value: e.target.value });
+
+    if (users) {
+      const searched = users.filter(
+        (x) => x.fio.toLowerCase().indexOf(e.target.value.toLowerCase()) > -1
+      );
+      setSearchedUsers(searched);
+    }
+  };
+
+  const toggle = () => {
+    const select = document.querySelector(".checkbox-select");
+    select.classList.toggle("open");
+  };
+
+  const toggleClose = () => {
+    const select = document.querySelector(".checkbox-select");
+    select.classList.remove("open");
+  };
+
+  const selectValue = (id, value) => {
+    setClient({ id, value });
+    toggleClose();
+  };
+
+  function useOutsideAlerter(ref) {
+    useEffect(() => {
+      function handleClickOutside(event) {
+        if (!ref.current.contains(event.target)) {
+          document.querySelector(".checkbox-select").classList.remove("open");
+        }
+      }
+
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    });
+  }
 
   return (
     <div className="layout-container">
@@ -421,6 +479,42 @@ export const CreateOrder = () => {
                         </div>
                       </div>
                     </div>
+                    {have_task && (
+                      <div className="form-group row">
+                        <label
+                          htmlFor="subject"
+                          className="col-form-label col-sm-2 text-sm-right"
+                        >
+                          Заявитель
+                        </label>
+                        <div className="col-sm-10">
+                          <div className="checkbox-select mb-3" ref={ref}>
+                            <input
+                              className="select-input form-control"
+                              type="text"
+                              value={client.value}
+                              onChange={creatorHandler}
+                              onClick={toggle}
+                            />
+                            <div className="select-dropdown">
+                              <ul className="select-list">
+                                {searchedUsers
+                                  ? searchedUsers.map((x) => (
+                                      <li
+                                        className="select-item"
+                                        key={x.id}
+                                        onClick={() => selectValue(x.id, x.fio)}
+                                      >
+                                        {x.fio}
+                                      </li>
+                                    ))
+                                  : null}
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                     <div className="form-group row">
                       <label
                         htmlFor="subject"

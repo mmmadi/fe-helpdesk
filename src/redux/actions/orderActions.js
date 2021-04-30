@@ -1,5 +1,6 @@
 import {
   ADD_COMMENT,
+  ADD_ORDER_PARTY,
   CANCEL_ORDER,
   CREATE_ORDER,
   DELETE_ORDER,
@@ -8,6 +9,7 @@ import {
   GET_COUNT,
   GET_ORDER,
   GET_ORDERS,
+  GET_ORDER_PARTY,
   GET_SPEC,
   GET_SUB_SPEC,
   GET_TASKS,
@@ -22,7 +24,7 @@ import {
 } from "./actions";
 import { server } from "../../config/config.json";
 
-export function createOrder(form, files) {
+export function createOrder(form, files, client) {
   return async (dispatch) => {
     try {
       dispatch(showLoader());
@@ -35,6 +37,7 @@ export function createOrder(form, files) {
         body: JSON.stringify({
           form: form,
           files: files,
+          client,
         }),
       });
       const json = await query.json();
@@ -356,6 +359,44 @@ export function deleteOrder(id) {
       dispatch({ type: DELETE_ORDER, payload: json });
       dispatch(hideLoader());
       dispatch(showFullAlert(json));
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+}
+
+export function getOrderParty(id) {
+  return async (dispatch) => {
+    try {
+      const query = await fetch(`${server}/api/get-order-party/${id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json;charset=utf-8",
+        },
+      });
+      const json = await query.json();
+      dispatch({ type: GET_ORDER_PARTY, payload: json });
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+}
+
+export function addOrderParty(orderId, data) {
+  return async (dispatch) => {
+    try {
+      const query = await fetch(`${server}/api/add-order-party`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json;charset=utf-8",
+        },
+        body: JSON.stringify({
+          orderId,
+          data,
+        }),
+      });
+      const json = await query.json();
+      dispatch({ type: ADD_ORDER_PARTY, payload: json });
     } catch (e) {
       console.log(e.message);
     }
