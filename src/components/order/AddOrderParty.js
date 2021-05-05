@@ -17,13 +17,12 @@ export const AddOrderParty = ({ orderPartyData, orderId }) => {
   const users = useSelector((state) => state.filter.f_executor);
 
   useEffect(() => {
-    setCheckedOptions(orderPartyData);
-
-    const newOptions = [];
-
     if (users && orderPartyData) {
+      setCheckedOptions(orderPartyData.data);
+
+      const newOptions = [];
       users.map((x) => {
-        const param = orderPartyData.find((s) => s.id === x.id);
+        const param = orderPartyData.data.find((s) => s.id === x.id);
         if (param) {
           return newOptions.push({ ...x, checked: param.checked });
         } else {
@@ -180,7 +179,7 @@ export const AddOrderParty = ({ orderPartyData, orderId }) => {
               {orderPartyData ? (
                 <ul className="col-sm-12">
                   <hr />
-                  {orderPartyData.map((user) => (
+                  {orderPartyData.data.map((user) => (
                     <li key={user.id} className="media p-2">
                       <div className="media-body">
                         {user.img ? (

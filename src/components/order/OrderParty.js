@@ -5,6 +5,39 @@ import { server } from "../../config/config.json";
 import { AddOrderParty } from "./AddOrderParty";
 
 export const OrderParty = ({ orderPartyData, orderId, have_task }) => {
+  if (!orderPartyData) {
+    return (
+      <div className="card mb-3">
+        <div className="card-body">
+          <div className="card-title with-elements">
+            <h5 className="m-0 mr-2">Загрузка...</h5>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (orderPartyData.type === "danger") {
+    return (
+      <div className="card mb-3">
+        <div className="card-body">
+          <div className="card-title with-elements">
+            <h5 className="m-0 mr-2">Участники заявки</h5>
+          </div>
+          <div className="d-flex justify-content-start flex-wrap">
+            <div className="d-block mr-1 mb-1">
+              <span>
+                <div className="position-relative">
+                  Ошибка загрузки данных, обратитесь к администратору!
+                </div>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="card mb-3">
       <AddOrderParty orderPartyData={orderPartyData} orderId={orderId} />
@@ -26,7 +59,7 @@ export const OrderParty = ({ orderPartyData, orderId, have_task }) => {
         </div>
         <div className="d-flex justify-content-start flex-wrap">
           {orderPartyData
-            ? orderPartyData.map((user) => (
+            ? orderPartyData.data.map((user) => (
                 <div className="d-block mr-1 mb-1" key={user.id}>
                   <span>
                     <div className="position-relative">

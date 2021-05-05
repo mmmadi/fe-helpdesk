@@ -152,7 +152,7 @@ export const OrderComment = () => {
     }
   }
   if (commentsData) {
-    if (commentsData.length) {
+    if (commentsData.data.length) {
       return (
         <div className="row">
           <div className="content-chat">
@@ -173,6 +173,26 @@ export const OrderComment = () => {
             </div>
           </div>
         </div>
+      );
+    }
+    if (commentsData.type === "danger") {
+      return (
+        <>
+          <div className="card mb-1">
+            <div className="card-body">
+              <div className="row">
+                <div className="content-chat no-comment">
+                  <div className="alert alert-secondary fade show">
+                    <h5>
+                      <FontAwesomeIcon icon={faInfo} /> Ошибка загрузки данных.
+                      Обратитесь к администратору!
+                    </h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
       );
     }
   }

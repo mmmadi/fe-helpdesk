@@ -13,6 +13,39 @@ body {
 }
 
 $click: #1e70cd;
+$shine_background: rgb(228, 230, 235);
+
+//shimmer
+.shine {
+  background: $shine_background;
+  background-image: linear-gradient(
+    to right,
+    $shine_background 0%,
+    rgb(219, 221, 224) 20%,
+    $shine_background 40%,
+    $shine_background 100%
+  );
+  background-repeat: no-repeat;
+  background-size: 800px 104px;
+  display: inline-block;
+  position: relative;
+
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: placeholderShimmer;
+  animation-timing-function: linear;
+}
+
+@keyframes placeholderShimmer {
+  0% {
+    background-position: -468px 0;
+  }
+
+  100% {
+    background-position: 468px 0;
+  }
+}
 
 //constants
 .sidebar_menu {
@@ -561,6 +594,37 @@ h4 {
       //create order - Screens/Orders/CreateOrder.js
       .layout-content {
         width: 100%;
+        .order-list-section-shimmer {
+          .media .media-body {
+            width: 100%;
+          }
+          .contact-content-about {
+            width: 100%;
+            margin-left: 0.5rem;
+          }
+          .w-25 {
+            width: 25%;
+          }
+          .w-100 {
+            width: 100%;
+          }
+          .lines {
+            height: 1rem;
+            margin-top: 10px;
+            width: 50%;
+          }
+          .box {
+            height: 70px;
+            width: 70px !important;
+            border-radius: 50% !important;
+          }
+          .action-buttons {
+            display: block !important;
+            width: 100%;
+            height: 3rem;
+            margin-top: 15px;
+          }
+        }
         .create-order-section {
           .checkbox-select,
           .w-checkbox-select {

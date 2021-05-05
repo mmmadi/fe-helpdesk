@@ -6,16 +6,38 @@ import { StatusStyle } from "../components/const/StatusStyle";
 import { PriorityStyle } from "../components/const/PriorityStyle";
 
 export const DataTable = ({ orders, param }) => {
-  const data = orders ? orders : [];
-  const loading = useSelector((state) => state.app.loading);
   const { have_task } = useSelector((state) => state.auth.data);
 
-  if (loading) {
+  if (!orders) {
     return (
       <tbody>
         <tr>
-          <td colSpan="8">
+          <td colSpan="10">
             <Loader />
+          </td>
+        </tr>
+      </tbody>
+    );
+  }
+
+  if (orders.type === "danger") {
+    return (
+      <tbody>
+        <tr>
+          <td colSpan="10" style={{ textAlign: "center" }}>
+            Проблема с загрузкой заявок, обратитесь к администратору!
+          </td>
+        </tr>
+      </tbody>
+    );
+  }
+
+  if (orders.data.length === 0) {
+    return (
+      <tbody>
+        <tr>
+          <td colSpan="10" style={{ textAlign: "center" }}>
+            Заявок нет...
           </td>
         </tr>
       </tbody>
@@ -24,7 +46,7 @@ export const DataTable = ({ orders, param }) => {
 
   return (
     <tbody>
-      {data.map((el) => {
+      {orders.data.map((el) => {
         return (
           <tr key={el.id}>
             <th scope="row">

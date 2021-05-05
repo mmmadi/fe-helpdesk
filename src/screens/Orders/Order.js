@@ -17,6 +17,7 @@ import { LockAlertChange } from "../../components/order/LockAlertChange";
 import { OrderComment } from "../../components/order/OrderComment";
 import { OrderCreator } from "../../components/order/OrderCreator";
 import { OrderParty } from "../../components/order/OrderParty";
+import { OrderShimmer } from "../../components/shimmers/OrderShimmer";
 
 export const Order = () => {
   const dispatch = useDispatch();
@@ -52,68 +53,74 @@ export const Order = () => {
   };
 
   const getCreate = (param) => {
-    if (param === 1) {
-      if (order[0].creator) {
-        return order[0].creator;
-      } else if (order[0].client) {
-        return null;
-      } else {
-        return order[0].id_user_ins;
-      }
-    }
-    if (param === 2) {
-      if (order[0].creator) {
-        if (order[0].creator_img) {
-          return order[0].creator_img;
-        } else {
+    if (order.type !== "danger") {
+      if (param === 1) {
+        if (order.data[0].creator) {
+          return order.data[0].creator;
+        } else if (order.data[0].client) {
           return null;
+        } else {
+          return order.data[0].id_user_ins;
         }
-      } else if (order[0].client) {
-        return null;
-      } else {
-        return order[0].image;
       }
-    }
-    if (param === 3) {
-      if (order[0].creator_fio) {
-        return order[0].creator_fio;
-      } else if (order[0].client) {
-        return order[0].client;
-      } else {
-        return order[0].author;
+      if (param === 2) {
+        if (order.data[0].creator) {
+          if (order.data[0].creator_img) {
+            return order.data[0].creator_img;
+          } else {
+            return null;
+          }
+        } else if (order.data[0].client) {
+          return null;
+        } else {
+          return order.data[0].image;
+        }
       }
-    }
-    if (param === 4) {
-      if (order[0].creator_struct) {
-        return order[0].creator_struct;
-      } else if (order[0].client) {
-        return null;
-      } else {
-        return order[0].author_struct;
+      if (param === 3) {
+        if (order.data[0].creator_fio) {
+          return order.data[0].creator_fio;
+        } else if (order.data[0].client) {
+          return order.data[0].client;
+        } else {
+          return order.data[0].author;
+        }
+      }
+      if (param === 4) {
+        if (order.data[0].creator_struct) {
+          return order.data[0].creator_struct;
+        } else if (order.data[0].client) {
+          return null;
+        } else {
+          return order.data[0].author_struct;
+        }
       }
     }
   };
 
   if (!order) {
+    return <OrderShimmer />;
+  }
+
+  if (order.type === "danger") {
     return (
       <div className="layout-container">
         <Navbar />
         <div className="layout-content">
           <div className="order-list-section container-fluid flex-grow-1 container-p-y">
-            <h4 className="font-weight-bold mb-4">Заявка не найдена</h4>
+            <h4 className="font-weight-bold mb-4">{order.message}</h4>
           </div>
         </div>
       </div>
     );
   }
 
-  if (order.length < 1) {
+  if (order.type === "warning") {
     return (
       <div className="layout-container">
         <Navbar />
         <div className="layout-content">
           <div className="order-list-section container-fluid flex-grow-1 container-p-y">
-            <h4 className="font-weight-bold mb-4">Заявка не найдена</h4>
+            <h4 className="font-weight-bold mb-4">{order.message}</h4>
           </div>
         </div>
       </div>
@@ -126,7 +133,7 @@ export const Order = () => {
       <div className="layout-content">
         <div className="order-list-section container-fluid flex-grow-1 container-p-y">
           <OrderHead
-            order={order}
+            order={order.data}
             userData={userData}
             cancelData={cancelData}
             doneData={doneData}
@@ -134,7 +141,7 @@ export const Order = () => {
           <div className="row order-section">
             <div className="col-sm-8">
               <OrderBody
-                order={order}
+                order={order.data}
                 closeAlert={closeAlert}
                 alert={alert}
                 userData={userData}
@@ -145,7 +152,7 @@ export const Order = () => {
               <LockAlertChange
                 doneData={doneData}
                 userData={userData}
-                order={order}
+                order={order.data}
                 cancelData={cancelData}
               />
               {have_task && (
@@ -154,7 +161,7 @@ export const Order = () => {
                   doneWorkHandler={doneWorkHandler}
                   cancelOrderHandlder={cancelOrderHandlder}
                   userData={userData}
-                  order={order}
+                  order={order.data}
                   cancelData={cancelData}
                   doneData={doneData}
                 />
