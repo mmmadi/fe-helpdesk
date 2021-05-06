@@ -144,6 +144,10 @@ export function showFullAlert(message) {
       type: SHOW_FULL_ALERT,
       payload: message,
     });
+
+    setTimeout(() => {
+      dispath(hideFullAlert());
+    }, 3000);
   };
 }
 export function hideFullAlert() {

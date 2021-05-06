@@ -47,7 +47,125 @@ $shine_background: rgb(228, 230, 235);
   }
 }
 
+// popover
+
+.dropdown-iconpicker {
+  position: relative;
+  .iconpicker-popover {
+    z-index: 1050 !important;
+  }
+  .popover {
+    position: absolute;
+    top: 30px !important;
+    left: 0 !important;
+    will-change: top, left;
+    display: none;
+  }
+  .popover {
+    top: 0;
+    left: 0;
+    z-index: 1060;
+    max-width: 276px;
+    font-family: Roboto, -apple-system, BlinkMacSystemFont, Segoe UI, Oxygen,
+      Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.47;
+    text-align: left;
+    text-align: start;
+    text-decoration: none;
+    text-shadow: none;
+    text-transform: none;
+    letter-spacing: normal;
+    word-break: normal;
+    word-spacing: normal;
+    white-space: normal;
+    line-break: auto;
+    font-size: 0.75rem;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(24, 28, 33, 0.06);
+    border-radius: 0.25rem;
+    max-width: inherit !important;
+  }
+  .popover-body {
+    padding: 0.625rem 0.75rem;
+    color: #4e5155;
+  }
+  .iconpicker-popover .search-control {
+    margin-bottom: 6px;
+    margin-top: 6px;
+  }
+  .table-icons .btn {
+    min-height: 30px;
+    min-width: 35px;
+    text-align: center;
+    padding: 0;
+    margin: 2px;
+  }
+  .btn-warning {
+    background: #ffd950;
+  }
+  .btn-warning,
+  .btn-warning:hover {
+    border-color: transparent;
+    color: #665720;
+  }
+}
+
 //constants
+
+.text-primary {
+  color: #775cdc !important;
+}
+.dropdown-toggle:after {
+  display: inline-block;
+  margin-left: 0.5em;
+  vertical-align: middle;
+  content: "";
+  margin-top: -0.28em;
+  width: 0.42em;
+  height: 0.42em;
+  border: 1px solid;
+  border-top: 0;
+  border-left: 0;
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+.iconpicker {
+  min-width: 60px;
+}
+.iconpicker .caret {
+  margin-left: 10px !important;
+}
+.btn-group-sm > .btn,
+.btn-sm {
+  padding: 0.188rem 0.6875rem;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  border-radius: 0.25rem;
+}
+.btn-outline-success {
+  border-color: #02bc77;
+  background: transparent;
+  color: #02bc77;
+}
+.btn-outline-success:hover {
+  border-color: transparent;
+  background: #02bc77;
+  color: #fff;
+}
+.btn-outline-info:hover {
+  border-color: transparent;
+  background: #28c3d7;
+  color: #fff;
+}
+.btn-group-xs > .icon-btn.btn,
+.icon-btn.btn-xs {
+  width: calc(1.125rem + 2px);
+  line-height: 1.125rem;
+}
 .sidebar_menu {
   padding: 0.25rem 0.75rem;
   font-size: 1.25rem;
@@ -1152,6 +1270,56 @@ h4 {
             }
           }
         }
+        .help-section {
+          .card-hover[class] {
+            transition: all 0.2s;
+          }
+          .card-hover[class]:not(:hover) {
+            color: #4e5155 !important;
+            border-color: transparent !important;
+            background: transparent !important;
+            box-shadow: none !important;
+          }
+          .text-body[href]:hover {
+            color: #3c8ae2 !important;
+          }
+          a,
+          a:hover {
+            text-decoration: none;
+          }
+          .dd,
+          .dd-list {
+            position: relative;
+            display: block;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            .dd-item {
+              position: relative;
+              display: block;
+              margin: 0;
+              padding: 0;
+              .dd-handle {
+                border: 0;
+                float: left;
+                margin: 1px;
+                font-size: 0.625rem;
+                line-height: 1.25rem;
+                padding: 0.3125rem 0.75rem;
+                display: block;
+                .dd-icon {
+                  vertical-align: middle;
+                }
+              }
+              .dd-content {
+                border: 1px solid rgba(24, 28, 33, 0.1);
+                border-radius: 0.25rem;
+                margin: 0.3125rem 0;
+                padding: 0.3125rem 0.75rem;
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -1235,6 +1403,10 @@ h4 {
 }
 
 @media (min-width: 992px) {
+  .container-m-nx {
+    margin-right: -2rem !important;
+    margin-left: -2rem !important;
+  }
   .container-fluid {
     padding-right: 2rem;
     padding-left: 2rem;

@@ -6,7 +6,7 @@ import { faClock } from "@fortawesome/free-solid-svg-icons";
 export const Comments = ({ commentsData }) => {
   return (
     <>
-      {commentsData.data.map((comment) => {
+      {commentsData.map((comment) => {
         return (
           <div className="card mb-3" key={comment.id}>
             <div className="card-body">

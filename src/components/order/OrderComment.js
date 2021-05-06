@@ -156,7 +156,7 @@ export const OrderComment = () => {
       return (
         <div className="row">
           <div className="content-chat">
-            <Comments commentsData={commentsData} />
+            <Comments commentsData={commentsData.data} />
             <div className="card mb-3">
               <div className="card-body">
                 <div className="row">

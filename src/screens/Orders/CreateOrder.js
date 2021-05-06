@@ -585,7 +585,9 @@ export const CreateOrder = () => {
                                 <button
                                   type="button"
                                   className="close-button"
-                                  onClick={() => fileRemoveHandler(file.name)}
+                                  onClick={() =>
+                                    fileRemoveHandler(file.hashName)
+                                  }
                                 >
                                   &times;
                                 </button>

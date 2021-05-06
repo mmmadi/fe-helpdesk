@@ -1,4 +1,4 @@
-export const AlertModal = ({ id, body, ok }) => {
+export const AlertModal = ({ id, body, ok, elId = null }) => {
   return (
     <div
       className="modal fade"
@@ -19,9 +19,19 @@ export const AlertModal = ({ id, body, ok }) => {
             >
               Отмена
             </button>
-            <button type="button" className="btn btn-primary" onClick={ok}>
-              ОК
-            </button>
+            {elId ? (
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={() => ok(elId)}
+              >
+                ОК
+              </button>
+            ) : (
+              <button type="button" className="btn btn-primary" onClick={ok}>
+                ОК
+              </button>
+            )}
           </div>
         </div>
       </div>

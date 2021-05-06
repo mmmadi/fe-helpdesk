@@ -7,6 +7,13 @@ import { UpdateOrder } from "./screens/Orders/UpdateOrder";
 import { Help } from "./screens/Help/Help";
 import { Login } from "./screens/Login";
 import { UserProfile } from "./screens/Profile/UserProfile";
+import { HelpCategories } from "./screens/Help/HelpCategories";
+import { CreateHelpCategory } from "./screens/Help/CreateHelpCategory";
+import { UpdateHelpCategory } from "./screens/Help/UpdateHelpCategory";
+import { HelpCategory } from "./screens/Help/HelpCategory";
+import { HelpItem } from "./screens/Help/HelpItem";
+import { CreateHelpItem } from "./screens/Help/CreateHelpItem";
+import { UpdateHelpItem } from "./screens/Help/UpdateHelpItem";
 
 export const useRoutes = (isLogin, isLogin1) => {
   if (!isLogin) {
@@ -36,8 +43,29 @@ export const useRoutes = (isLogin, isLogin1) => {
         <Route path="/order/update/:id">
           <UpdateOrder />
         </Route>
-        <Route path="/help">
+        <Route path="/help" exact>
           <Help />
+        </Route>
+        <Route path="/help-item/:id">
+          <HelpItem />
+        </Route>
+        <Route path="/help/edit/item/:id">
+          <UpdateHelpItem />
+        </Route>
+        <Route path="/help/cat/:id">
+          <HelpCategory />
+        </Route>
+        <Route path="/help/edit/category" exact>
+          <HelpCategories />
+        </Route>
+        <Route path="/help/edit/category/:id">
+          <UpdateHelpCategory />
+        </Route>
+        <Route path="/help/add/category">
+          <CreateHelpCategory />
+        </Route>
+        <Route path="/help/add/item">
+          <CreateHelpItem />
         </Route>
         <Route path="/profile">
           <UserProfile />

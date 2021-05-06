@@ -5,6 +5,7 @@ import { orderReducer } from "./orderReducer";
 import { orderFilterReducer } from "./orderFilterReducer";
 import { dashboardReducer } from "./dashboardReducer";
 import { profileReducer } from "./profileReducer";
+import { helpReducer } from "./helpReducer";
 
 export const rootReducer = combineReducers({
   auth: authReducer,
@@ -13,4 +14,5 @@ export const rootReducer = combineReducers({
   filter: orderFilterReducer,
   dashboard: dashboardReducer,
   profile: profileReducer,
+  help: helpReducer,
 });
