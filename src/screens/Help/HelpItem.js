@@ -1,4 +1,4 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router";
 import { Link } from "react-router-dom";
 import { deleteItem } from "../../redux/actions/helpActions";
@@ -19,6 +19,7 @@ export const HelpItem = () => {
     date,
     help_category_id,
   } = location.state.item;
+  const id_struct = useSelector((state) => state.auth.data.id_struct);
 
   const closeModal = () => {
     const constModal = document.getElementById("cancel-button");
@@ -46,25 +47,27 @@ export const HelpItem = () => {
                 <small className="font-weight-normal">{category_name}</small>
               </div>
             </div>
-            <div className="btn-group btn-group-xs">
-              <Link
-                to={{
-                  pathname: `/help/edit/item/${id}`,
-                  state: { update_item: location.state.item },
-                }}
-                className="btn btn-xs btn-outline-primary d-block"
-              >
-                Редактировать
-              </Link>
-              <button
-                type="button"
-                data-bs-toggle="modal"
-                data-bs-target="#deleteItem"
-                className="btn btn-xs btn-outline-danger d-block"
-              >
-                Удалить
-              </button>
-            </div>
+            {id_struct === 2 && (
+              <div className="btn-group btn-group-xs">
+                <Link
+                  to={{
+                    pathname: `/help/edit/item/${id}`,
+                    state: { update_item: location.state.item },
+                  }}
+                  className="btn btn-xs btn-outline-primary d-block"
+                >
+                  Редактировать
+                </Link>
+                <button
+                  type="button"
+                  data-bs-toggle="modal"
+                  data-bs-target="#deleteItem"
+                  className="btn btn-xs btn-outline-danger d-block"
+                >
+                  Удалить
+                </button>
+              </div>
+            )}
           </h4>
           <div className="row">
             <div className="col-sm-12">
