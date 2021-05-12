@@ -1,6 +1,7 @@
 import {
   ADD_COMMENT,
   ADD_ORDER_PARTY,
+  ADD_UNDER_COMMENT,
   CANCEL_ORDER,
   CREATE_ORDER,
   DELETE_ORDER,
@@ -13,6 +14,7 @@ import {
   GET_SPEC,
   GET_SUB_SPEC,
   GET_TASKS,
+  GET_UNDER_COMMENT,
   TAKE_IN_WORK,
   UPDATE_ORDER,
 } from "../types";
@@ -325,7 +327,31 @@ export function addComment(id, form, files) {
     }
   };
 }
-
+export function addUnderComment(id, userId, text, orderId, mark) {
+  return async (dispatch) => {
+    try {
+      dispatch(showLoader());
+      const query = await fetch(`${server}/api/add-under-comment`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json;charset=utf-8",
+        },
+        body: JSON.stringify({
+          id,
+          userId,
+          text,
+          orderId,
+          mark,
+        }),
+      });
+      const json = await query.json();
+      dispatch({ type: ADD_UNDER_COMMENT, payload: json });
+      dispatch(hideLoader());
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+}
 export function getComments(id) {
   return async (dispatch) => {
     try {
@@ -339,6 +365,22 @@ export function getComments(id) {
       const json = await query.json();
       dispatch({ type: GET_COMMENT, payload: json });
       dispatch(hideLoader());
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+}
+export function getUnderComments(id) {
+  return async (dispatch) => {
+    try {
+      const query = await fetch(`${server}/api/get-under-comments/${id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json;charset=utf-8",
+        },
+      });
+      const json = await query.json();
+      dispatch({ type: GET_UNDER_COMMENT, payload: json });
     } catch (e) {
       console.log(e.message);
     }

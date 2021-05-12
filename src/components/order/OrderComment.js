@@ -4,8 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfo } from "@fortawesome/free-solid-svg-icons";
 import { AddComment } from "./AddComment";
-import { addComment, getComments } from "../../redux/actions/orderActions";
+import {
+  addComment,
+  getComments,
+  getUnderComments,
+} from "../../redux/actions/orderActions";
 import { Comments } from "./Comments";
+import { countOfComments } from "../../middleware/countOfComments";
 
 export const OrderComment = () => {
   const orderId = useParams().id;
@@ -18,10 +23,11 @@ export const OrderComment = () => {
   });
 
   const commentsData = useSelector((state) => state.order.comment);
-  const newCommentsData = useSelector((state) => state.order.addedComment);
+  const underCommentsData = useSelector((state) => state.order.underComment);
 
   useEffect(() => {
     dispatch(getComments(orderId));
+    dispatch(getUnderComments(orderId));
   }, [dispatch, orderId]);
 
   const changeHandler = (event) => {
@@ -33,6 +39,9 @@ export const OrderComment = () => {
 
     fileUpload.click();
   };
+
+  console.log();
+  console.log((752 + "").indexOf("2") > -1);
 
   const fileChangeHandler = (event) => {
     if (!event.target.files.length) {
@@ -126,37 +135,27 @@ export const OrderComment = () => {
     clearForm();
   };
 
-  if (newCommentsData) {
-    if (newCommentsData.data.length) {
-      return (
-        <div className="row">
-          <div className="content-chat">
-            <Comments commentsData={newCommentsData.data} />
-            <div className="card mb-3">
-              <div className="card-body">
-                <div className="row">
-                  <AddComment
-                    openFileUpload={openFileUpload}
-                    fileChangeHandler={fileChangeHandler}
-                    changeHandler={changeHandler}
-                    addCommentHandler={addCommentHandler}
-                    fileRemoveHandler={fileRemoveHandler}
-                    files={files}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-    }
-  }
   if (commentsData) {
     if (commentsData.data.length) {
       return (
         <div className="row">
           <div className="content-chat">
-            <Comments commentsData={commentsData.data} />
+            <div className="mb-3 mt-3">
+              {underCommentsData ? (
+                <h4>
+                  {countOfComments(
+                    commentsData.data.length + underCommentsData.data.length
+                  )}
+                </h4>
+              ) : (
+                <h4>{countOfComments(commentsData.data.length)}</h4>
+              )}
+            </div>
+            <Comments
+              orderId={orderId}
+              commentsData={commentsData.data}
+              underCommentsData={underCommentsData}
+            />
             <div className="card mb-3">
               <div className="card-body">
                 <div className="row">

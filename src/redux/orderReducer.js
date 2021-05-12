@@ -1,6 +1,7 @@
 import {
   ADD_COMMENT,
   ADD_ORDER_PARTY,
+  ADD_UNDER_COMMENT,
   CANCEL_ORDER,
   CREATE_ORDER,
   DELETE_ORDER,
@@ -13,6 +14,7 @@ import {
   GET_SPEC,
   GET_SUB_SPEC,
   GET_TASKS,
+  GET_UNDER_COMMENT,
   TAKE_IN_WORK,
   UPDATE_ORDER,
 } from "./types";
@@ -30,7 +32,7 @@ const initialState = {
   cancel: null,
   done: null,
   comment: null,
-  addedComment: null,
+  underComment: null,
   delete: null,
   orderParty: null,
 };
@@ -100,7 +102,17 @@ export const orderReducer = (state = initialState, action) => {
     case ADD_COMMENT:
       return {
         ...state,
-        addedComment: action.payload,
+        comment: action.payload,
+      };
+    case GET_UNDER_COMMENT:
+      return {
+        ...state,
+        underComment: action.payload,
+      };
+    case ADD_UNDER_COMMENT:
+      return {
+        ...state,
+        underComment: action.payload,
       };
     case DELETE_ORDER:
       return {
