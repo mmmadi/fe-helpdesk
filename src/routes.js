@@ -16,62 +16,72 @@ import { CreateHelpItem } from "./screens/Help/CreateHelpItem";
 import { UpdateHelpItem } from "./screens/Help/UpdateHelpItem";
 
 export const useRoutes = (isLogin, isLogin1) => {
-  if (!isLogin) {
+  function PRoute({ children, ...rest }) {
     return (
-      <Switch>
-        <Route path="/login">
-          <Login />
-        </Route>
-        <Redirect to="/login" />
-      </Switch>
-    );
-  } else {
-    return (
-      <Switch>
-        <Route path="/dashboard">
-          <Dashboard />
-        </Route>
-        <Route path="/create-order">
-          <CreateOrder />
-        </Route>
-        <Route path="/orders" exact>
-          <Orders />
-        </Route>
-        <Route path="/orders/:id">
-          <Order />
-        </Route>
-        <Route path="/order/update/:id">
-          <UpdateOrder />
-        </Route>
-        <Route path="/help" exact>
-          <Help />
-        </Route>
-        <Route path="/help-item/:id">
-          <HelpItem />
-        </Route>
-        <Route path="/help/edit/item/:id">
-          <UpdateHelpItem />
-        </Route>
-        <Route path="/help/cat/:id">
-          <HelpCategory />
-        </Route>
-        <Route path="/help/edit/category" exact>
-          <HelpCategories />
-        </Route>
-        <Route path="/help/edit/category/:id">
-          <UpdateHelpCategory />
-        </Route>
-        <Route path="/help/add/category">
-          <CreateHelpCategory />
-        </Route>
-        <Route path="/help/add/item">
-          <CreateHelpItem />
-        </Route>
-        <Route path="/profile">
-          <UserProfile />
-        </Route>
-        <Redirect to="/dashboard" />
-      </Switch>
+      <Route
+        {...rest}
+        render={({ location }) =>
+          isLogin ? (
+            children
+          ) : (
+            <Redirect
+              to={{
+                pathname: "/login",
+                state: { from: location },
+              }}
+            />
+          )
+        }
+      />
     );
   }
+
+  return (
+    <Switch>
+      {!isLogin && <Route path="/login" component={Login} />}
+      <PRoute path="/dashboard">
+        <Dashboard />
+      </PRoute>
+      <PRoute path="/create-order">
+        <CreateOrder />
+      </PRoute>
+      <PRoute path="/orders" exact>
+        <Orders />
+      </PRoute>
+      <PRoute path="/orders/:id">
+        <Order />
+      </PRoute>
+      <PRoute path="/order/update/:id">
+        <UpdateOrder />
+      </PRoute>
+      <PRoute path="/help" exact>
+        <Help />
+      </PRoute>
+      <PRoute path="/help-item/:id">
+        <HelpItem />
+      </PRoute>
+      <PRoute path="/help/edit/item/:id">
+        <UpdateHelpItem />
+      </PRoute>
+      <PRoute path="/help/cat/:id">
+        <HelpCategory />
+      </PRoute>
+      <PRoute path="/help/edit/category" exact>
+        <HelpCategories />
+      </PRoute>
+      <PRoute path="/help/edit/category/:id">
+        <UpdateHelpCategory />
+      </PRoute>
+      <PRoute path="/help/add/category">
+        <CreateHelpCategory />
+      </PRoute>
+      <PRoute path="/help/add/item">
+        <CreateHelpItem />
+      </PRoute>
+      <PRoute path="/profile">
+        <UserProfile />
+      </PRoute>
+      {!isLogin ? <Redirect to="/login" /> : <Redirect to="/dashboard" />}
+    </Switch>
+  );
 };

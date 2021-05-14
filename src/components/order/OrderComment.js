@@ -40,9 +40,6 @@ export const OrderComment = () => {
     fileUpload.click();
   };
 
-  console.log();
-  console.log((752 + "").indexOf("2") > -1);
-
   const fileChangeHandler = (event) => {
     if (!event.target.files.length) {
       return;
