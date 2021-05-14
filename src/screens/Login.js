@@ -7,7 +7,7 @@ import { login } from "../redux/actions/actions";
 
 export const Login = () => {
   const [form, setForm] = useState({
-    email: "",
+    username: "",
     password: "",
   });
 
@@ -38,16 +38,15 @@ export const Login = () => {
           <Alert message={alert} type={"warning"} section={false} />
         ) : null}
         <div className="mb-3">
-          <label htmlFor="email-input" className="form-label">
-            Email
+          <label htmlFor="username-input" className="form-label">
+            Имя пользователя
           </label>
           <input
-            type="email"
-            name="email"
+            type="text"
+            name="username"
             className="form-control"
-            id="email-input"
-            aria-describedby="emailHelp"
-            value={form.email}
+            id="username-input"
+            value={form.username}
             onChange={changeHandler}
           />
         </div>
