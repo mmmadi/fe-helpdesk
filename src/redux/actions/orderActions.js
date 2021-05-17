@@ -101,7 +101,7 @@ export function getTasks() {
 export function getUserList() {
   return async (dispatch) => {
     try {
-      const response = await fetch(`${server}/api/get-users-data`, {
+      const response = await fetch(`${server}/api/get-users`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json;charset=utf-8",
