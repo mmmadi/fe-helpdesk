@@ -15,6 +15,7 @@ import {
   GET_SUB_SPEC,
   GET_TASKS,
   GET_UNDER_COMMENT,
+  GET_USER_LIST,
   TAKE_IN_WORK,
   UPDATE_ORDER,
 } from "../types";
@@ -91,6 +92,23 @@ export function getTasks() {
       });
       const json = await query.json();
       dispatch({ type: GET_TASKS, payload: json });
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+}
+
+export function getUserList() {
+  return async (dispatch) => {
+    try {
+      const response = await fetch(`${server}/api/get-users-data`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json;charset=utf-8",
+        },
+      });
+      const json = await response.json();
+      dispatch({ type: GET_USER_LIST, payload: json });
     } catch (e) {
       console.log(e.message);
     }

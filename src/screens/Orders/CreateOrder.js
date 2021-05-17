@@ -7,8 +7,9 @@ import {
   getTasks,
   getSpec,
   getSubSpec,
+  getUserList,
 } from "../../redux/actions/orderActions";
-import { getUsers, hideFullAlert } from "../../redux/actions/actions";
+import { hideFullAlert } from "../../redux/actions/actions";
 import { Loader } from "../../components/Loader";
 import { FullAlert } from "../../components/FullAlert";
 import { Navbar } from "../../components/Navbar";
@@ -39,11 +40,11 @@ export const CreateOrder = () => {
   const tasks = useSelector((state) => state.order.tasks);
   const spec = useSelector((state) => state.order.spec);
   const sub_spec = useSelector((state) => state.order.sub_spec);
-  const users = useSelector((state) => state.auth.users);
+  const users = useSelector((state) => state.order.userList);
 
   useEffect(() => {
     dispatch(getTasks());
-    dispatch(getUsers());
+    dispatch(getUserList());
   }, [dispatch]);
 
   useEffect(() => {

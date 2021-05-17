@@ -2,7 +2,7 @@
 export const LOGIN = "AUTH/LOGIN";
 export const LOGOUT = "AUTH/LOGOUT";
 export const ERROR = "AUTH/ERROR";
-export const GET_USERS = "AUTH/GET_USERS";
+export const GET_USER_LIST = "AUTH/GET_USER_LIST";
 //// APP
 export const SHOW_LOADER = "APP/SHOW_LOADER";
 export const HIDE_LOADER = "APP/HIDE_LOADER";

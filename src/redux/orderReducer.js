@@ -15,6 +15,7 @@ import {
   GET_SUB_SPEC,
   GET_TASKS,
   GET_UNDER_COMMENT,
+  GET_USER_LIST,
   TAKE_IN_WORK,
   UPDATE_ORDER,
 } from "./types";
@@ -35,10 +36,16 @@ const initialState = {
   underComment: null,
   delete: null,
   orderParty: null,
+  userList: null,
 };
 
 export const orderReducer = (state = initialState, action) => {
   switch (action.type) {
+    case GET_USER_LIST:
+      return {
+        ...state,
+        userList: action.payload,
+      };
     case CREATE_ORDER:
       return {
         ...state,
